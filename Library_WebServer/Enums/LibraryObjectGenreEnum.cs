@@ -1,6 +1,6 @@
 ﻿namespace Library_WebServer.Enums;
 
-public enum LibraryObjectGenre
+public enum LibraryObjectGenreEnum
 {
     Horror = 0,
     ScienceFiction = 1,

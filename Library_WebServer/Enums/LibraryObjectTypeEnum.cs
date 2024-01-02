@@ -1,6 +1,6 @@
 ﻿namespace Library_WebServer.Enums;
 
-public enum LibraryObjectType
+public enum LibraryObjectTypeEnum
 {
     Book = 0,
     Magazine = 1,

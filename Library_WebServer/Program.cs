@@ -6,6 +6,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//builder.Services.AddDbContext<LibraryDbContext>(
+//    options => options.UseNpgsql("postgresql://localhost:5432/Library?user=pgadmin&password=pgpass"));
 
 var app = builder.Build();
 

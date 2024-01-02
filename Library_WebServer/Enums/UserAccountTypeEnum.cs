@@ -1,6 +1,6 @@
 ﻿namespace Library_WebServer.Enums;
 
-public enum UserAccountType
+public enum UserAccountTypeEnum
 {
     User = 0,
     Librarian = 1,

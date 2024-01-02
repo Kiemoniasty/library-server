@@ -1,6 +1,6 @@
 ﻿namespace Library_WebServer.Enums;
 
-public enum LibraryObjectStatus
+public enum LibraryObjectStatusEnum
 {
     Available = 0,
     Reserved = 1,

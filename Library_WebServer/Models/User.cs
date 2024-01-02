@@ -1,15 +1,36 @@
 ﻿using Library_WebServer.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Library_WebServer.Models;
-
 public class User 
 {
+    [Key]
     public Guid Id { get; set; }
+
+    [Required]
+    [ForeignKey(nameof(UserAccountType))]
     public UserAccountType UserAccountTypeId { get; set; }
+
+    [Required]
+    [NotNull]
     public string Name { get; set; } = string.Empty;
+
+    [Required]
+    [NotNull]
     public string Password {  get; set; } = string.Empty;
+
+    [Required]
+    [NotNull]
     public string Email { get; set; } = string.Empty;
+
+    [Required]
+    [NotNull]
     public string PhoneNumber { get; set; } = string.Empty;
+
+    [Required]
+    [NotNull]
     public string Address { get; set; } = string.Empty;
 
     public User() { }
@@ -20,8 +41,8 @@ public class User
         UserAccountTypeId = accountType;
         Name = name;
         Password = password;
-        this.Email = email;
-        this.PhoneNumber = phoneNumber;
-        this.Address = address;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        Address = address;
     }
 }
