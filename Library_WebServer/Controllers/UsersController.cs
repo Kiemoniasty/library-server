@@ -1,3 +1,4 @@
+using Library_WebServer.Database;
 using Library_WebServer.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,12 @@ namespace Library_WebServer.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ILogger<UsersController> _logger;
+        private readonly LibraryDbContext _libraryDbContext; 
 
-        public UsersController(ILogger<UsersController> logger)
+        public UsersController(ILogger<UsersController> logger, LibraryDbContext libraryDbContext)
         {
             _logger = logger;
+            _libraryDbContext = libraryDbContext;
         }
 
         [HttpGet]
@@ -53,7 +56,7 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult PutUser([FromRoute] Guid userId)
+        public IActionResult DeleteUser([FromRoute] Guid userId)
         {
             return Ok();
         }

@@ -1404,6 +1404,12 @@
   "components": {
     "schemas": {
       "LibraryComment": {
+        "required": [
+          "contents",
+          "grade",
+          "publicationId",
+          "userId"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -1415,8 +1421,8 @@
             "format": "int32"
           },
           "contents": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "publicationId": {
             "type": "string",
@@ -1430,15 +1436,50 @@
         "additionalProperties": false
       },
       "LibraryObjectGenre": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/LibraryObjectGenreEnum"
+          },
+          "name": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LibraryObjectGenreEnum": {
         "enum": [
           0,
           1,
-          2
+          2,
+          3
         ],
         "type": "integer",
         "format": "int32"
       },
       "LibraryObjectType": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/LibraryObjectTypeEnum"
+          },
+          "name": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LibraryObjectTypeEnum": {
         "enum": [
           0,
           1,
@@ -1449,6 +1490,11 @@
         "format": "int32"
       },
       "LibraryPublication": {
+        "required": [
+          "libraryObjectGenre",
+          "libraryObjectType",
+          "name"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -1456,19 +1502,24 @@
             "format": "uuid"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
-          "libraryObjectTypeId": {
+          "libraryObjectType": {
             "$ref": "#/components/schemas/LibraryObjectType"
           },
-          "libraryObjectGenreId": {
+          "libraryObjectGenre": {
             "$ref": "#/components/schemas/LibraryObjectGenre"
           }
         },
         "additionalProperties": false
       },
       "LibraryReservation": {
+        "required": [
+          "date",
+          "libraryPublication",
+          "user"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -1479,11 +1530,11 @@
             "type": "string",
             "format": "date-time"
           },
-          "libraryPublicationId": {
+          "libraryPublication": {
             "type": "string",
             "format": "uuid"
           },
-          "userId": {
+          "user": {
             "type": "string",
             "format": "uuid"
           }
@@ -1515,42 +1566,67 @@
             "nullable": true
           }
         },
-        "additionalProperties": { }
+        "additionalProperties": {}
       },
       "User": {
+        "required": [
+          "address",
+          "email",
+          "name",
+          "password",
+          "phoneNumber",
+          "userAccountType"
+        ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
           },
-          "userAccountTypeId": {
+          "userAccountType": {
             "$ref": "#/components/schemas/UserAccountType"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "password": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "email": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "phoneNumber": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "address": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false
       },
       "UserAccountType": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/UserAccountTypeEnum"
+          },
+          "name": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserAccountTypeEnum": {
         "enum": [
           0,
           1,
