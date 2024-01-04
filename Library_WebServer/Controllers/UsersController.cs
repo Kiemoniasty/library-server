@@ -9,7 +9,7 @@ namespace Library_WebServer.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ILogger<UsersController> _logger;
-        private readonly LibraryDbContext _libraryDbContext; 
+        private readonly LibraryDbContext _libraryDbContext;
 
         public UsersController(ILogger<UsersController> logger, LibraryDbContext libraryDbContext)
         {
@@ -36,7 +36,21 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult PostUser([FromBody] User user)
         {
-            return Ok();
+            User newUser = new User()
+            {
+                Address = user.Address,
+                Email = user.Email,
+                Name = user.Name,
+                Password = user.Password,
+                PhoneNumber = user.PhoneNumber,
+                UserAccountType = _libraryDbContext.AccountTypes.Single(x => x.Id == user.UserAccountType.Id)
+            };
+
+            _libraryDbContext.Users.Add(newUser);
+
+            _libraryDbContext.SaveChanges();
+
+            return Ok(newUser);
         }
 
         [HttpPut]
