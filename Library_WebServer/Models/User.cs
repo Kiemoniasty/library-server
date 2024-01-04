@@ -10,8 +10,8 @@ public class User
     public Guid Id { get; set; }
 
     [Required]
-    [ForeignKey(nameof(UserAccountType))]
-    public UserAccountType UserAccountTypeId { get; set; }
+    [ForeignKey(nameof(UserAccountType) + ".Id")]
+    public UserAccountType UserAccountType { get; set; }
 
     [Required]
     [NotNull]
@@ -38,7 +38,7 @@ public class User
     public User(Guid id, UserAccountType accountType, string name, string password, string email, string phoneNumber, string address)
     {
         Id = id;
-        UserAccountTypeId = accountType;
+        UserAccountType = accountType;
         Name = name;
         Password = password;
         Email = email;

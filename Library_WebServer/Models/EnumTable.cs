@@ -8,7 +8,7 @@ public class EnumTable<TEnum>
     where TEnum : struct
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public TEnum Id { get; set; }
 
     [Required]

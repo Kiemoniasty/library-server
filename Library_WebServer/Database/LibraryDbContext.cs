@@ -16,17 +16,16 @@ namespace Library_WebServer.Database
         public DbSet<LibraryObjectType> PublicationTypes { get; set; }
         public DbSet<UserAccountType> AccountTypes{ get; set; }
 
-        //public ApplicationDbContext()
-        //{
+        public LibraryDbContext(DbContextOptions options) : base(options)
+        {
 
-        //}
-
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql("postgresql://localhost:5432/Library?user=pgadmin&password=pgpass");
+                optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=library;User Id=pgadmin;Password=pgpass;");
             }
         }
 

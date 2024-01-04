@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Library_WebServer.Models;
 
-public class LibraryComment 
+public class LibraryComment
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,11 +19,11 @@ public class LibraryComment
     public string Contents { get; set; } = string.Empty;
 
     [Required]
-    [ForeignKey(nameof(LibraryPublication))]
-    public Guid PublicationId {  get; set; }
+    [ForeignKey(nameof(LibraryPublication) + ".Id")]
+    public Guid PublicationId { get; set; }
 
     [Required]
-    [ForeignKey(nameof(User))]
+    [ForeignKey(nameof(User) + ".Id")]
     public Guid UserId { get; set; }
 
     public LibraryComment() { }

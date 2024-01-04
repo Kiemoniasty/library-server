@@ -17,12 +17,12 @@ public class LibraryPublication
     public string Name { get; set; } = string.Empty;
 
     [Required]
-    [ForeignKey(nameof(LibraryObjectType))]
-    public LibraryObjectType LibraryObjectTypeId { get; set; }
+    [ForeignKey(nameof(LibraryObjectType) + ".Id")]
+    public LibraryObjectType LibraryObjectType { get; set; }
 
     [Required]
-    [ForeignKey(nameof(LibraryObjectGenre))]
-    public virtual LibraryObjectGenre LibraryObjectGenreId { get; set; } 
+    [ForeignKey(nameof(LibraryObjectGenre) + ".Id")]
+    public virtual LibraryObjectGenre LibraryObjectGenre { get; set; }
 
     public LibraryPublication() { }
 
@@ -30,7 +30,7 @@ public class LibraryPublication
     {
         Id = id;
         Name = name;
-        LibraryObjectTypeId = objectType;
-        LibraryObjectGenreId = genre;
+        LibraryObjectType = objectType;
+        LibraryObjectGenre = genre;
     }
 }

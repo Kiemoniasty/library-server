@@ -16,12 +16,12 @@ public class LibraryReservation
     public DateTime Date{ get; set; }
 
     [Required]
-    [ForeignKey(nameof(LibraryPublication))]
-    public Guid LibraryPublicationId {  get; set; }
+    [ForeignKey(nameof(LibraryPublication) + ".Id")]
+    public Guid LibraryPublication {  get; set; }
 
     [Required]
-    [ForeignKey(nameof(User))]
-    public Guid UserId { get; set; }
+    [ForeignKey(nameof(User) + ".Id")]
+    public Guid User { get; set; }
 
     public LibraryReservation() { }
 
@@ -29,7 +29,7 @@ public class LibraryReservation
     {
         Id = id;
         Date = date;
-        LibraryPublicationId = publicationId;
-        UserId = userId;
+        LibraryPublication = publicationId;
+        User = userId;
     }
 }

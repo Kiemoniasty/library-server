@@ -4,5 +4,6 @@ public enum LibraryObjectGenreEnum
 {
     Horror = 0,
     ScienceFiction = 1,
-    Fantasy = 2
+    Fantasy = 2,
+    Cooking = 3
 }
