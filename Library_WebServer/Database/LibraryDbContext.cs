@@ -25,7 +25,7 @@ namespace Library_WebServer.Database
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=library;User Id=pgadmin;Password=pgpass;");
+                optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
             }
         }
 

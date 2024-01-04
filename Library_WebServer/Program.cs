@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<LibraryDbContext>(
-    options => options.UseNpgsql("Server=localhost;Port=5432;Database=library;User Id=pgadmin;Password=pgpass;"));
+    options => options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")));
 
 var app = builder.Build();
 
