@@ -6,6 +6,7 @@ namespace Library_WebServer.Database
 {
     public class LibraryDbContext : DbContext
     {
+        private const string CONNECTION_STRING = "Server=localhost;Port=5432;Database=library;User Id=pgadmin;Password=pgpass;";
         public DbSet<User> Users { get; set; }
         public DbSet<LibraryAuthor> Authors { get; set; }
         public DbSet<LibraryComment> Comments { get; set; }
@@ -21,13 +22,13 @@ namespace Library_WebServer.Database
 
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
-            }
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseNpgsql("dupa");
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
