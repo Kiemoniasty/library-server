@@ -6,7 +6,7 @@ namespace Library_WebServer.Database
 {
     public class LibraryDbContext : DbContext
     {
-        private const string CONNECTION_STRING = "Server=localhost;Port=5432;Database=library;User Id=pgadmin;Password=pgpass;";
+        private const string CONNECTION_STRING = "Server=localhost;Port=5432;Database=library;User Id=admin;Password=admin;";
         public DbSet<User> Users { get; set; }
         public DbSet<LibraryAuthor> Authors { get; set; }
         public DbSet<LibraryComment> Comments { get; set; }
@@ -15,7 +15,7 @@ namespace Library_WebServer.Database
         public DbSet<LibraryObjectGenre> Genres { get; set; }
         public DbSet<LibraryObjectStatus> Statuses { get; set; }
         public DbSet<LibraryObjectType> PublicationTypes { get; set; }
-        public DbSet<UserAccountType> AccountTypes{ get; set; }
+        public DbSet<UserAccountType> AccountTypes { get; set; }
 
         public LibraryDbContext(DbContextOptions options) : base(options)
         {
