@@ -14,14 +14,17 @@ public class LibraryPublication
 
     [Required]
     [NotNull]
+    [JsonPropertyName("Name")]
     public string Name { get; set; } = string.Empty;
 
     [Required]
     [ForeignKey(nameof(LibraryObjectType) + ".Id")]
+    [JsonPropertyName("LibraryObjectType")]
     public LibraryObjectType LibraryObjectType { get; set; }
 
     [Required]
     [ForeignKey(nameof(LibraryObjectGenre) + ".Id")]
+    [JsonPropertyName("LibraryObjectGenre")]
     public virtual LibraryObjectGenre LibraryObjectGenre { get; set; }
 
     public LibraryPublication() { }
