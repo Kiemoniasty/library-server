@@ -61,7 +61,20 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult PutComment([FromBody] LibraryComment comment)
         {
-            return Ok();
+            LibraryComment newComment = new LibraryComment()
+            {
+                Id = comment.Id,
+                Grade = comment.Grade,
+                Contents = comment.Contents,
+                PublicationId = _libraryDbContext.Publications.Single(x => x.Id == comment.PublicationId).Id,
+                UserId = _libraryDbContext.Users.Single(x => x.Id == comment.UserId).Id
+            };
+
+            _libraryDbContext.Comments.Update(newComment);
+
+            _libraryDbContext.SaveChanges();
+
+            return Ok(newComment);
         }
 
         [HttpDelete]
