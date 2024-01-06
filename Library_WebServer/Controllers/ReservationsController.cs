@@ -79,8 +79,18 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult DeleteReservation([FromRoute] Guid reservationId)
+        public IActionResult DeleteReservation(Guid reservationId)
         {
+            var reservation = _libraryDbContext.Reservations.SingleOrDefault(x => x.Id == reservationId);
+
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+
+            _libraryDbContext.Reservations.Remove(reservation);
+            _libraryDbContext.SaveChanges();
+
             return Ok();
         }
     }
