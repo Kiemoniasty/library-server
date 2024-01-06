@@ -1,6 +1,7 @@
 using Library_WebServer.Database;
 using Library_WebServer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.Design;
 using System.Xml.Linq;
 
@@ -26,9 +27,19 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetPublication([FromRoute] Guid publicationId)
+        public IActionResult GetPublication(Guid publicationId)
         {
-            return Ok();
+            var publication = _libraryDbContext.Publications
+                .Include(p => p.LibraryObjectType)
+                .Include(p => p.LibraryObjectGenre)
+                .SingleOrDefault(x => x.Id == publicationId);
+
+            if (publication == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(publication);
         }
 
         [HttpPost]
