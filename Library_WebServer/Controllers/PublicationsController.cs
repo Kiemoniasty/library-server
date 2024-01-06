@@ -60,7 +60,19 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult PutPublication([FromBody] LibraryPublication publication)
         {
-            return Ok();
+            LibraryPublication newPublication = new LibraryPublication()
+            {
+                Id = publication.Id,
+                Name = publication.Name,
+                LibraryObjectType = _libraryDbContext.PublicationTypes.Single(x => x.Id == publication.LibraryObjectType.Id),
+                LibraryObjectGenre = _libraryDbContext.Genres.Single(x => x.Id == publication.LibraryObjectGenre.Id),
+            };
+
+            _libraryDbContext.Publications.Update(newPublication);
+
+            _libraryDbContext.SaveChanges();
+
+            return Ok(newPublication);
         }
 
         [HttpDelete]
