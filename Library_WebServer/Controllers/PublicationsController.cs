@@ -1,6 +1,7 @@
 using Library_WebServer.Database;
 using Library_WebServer.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.Design;
 using System.Xml.Linq;
 
 
@@ -81,8 +82,18 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult DeletePublication([FromRoute] Guid publicationId)
+        public IActionResult DeletePublication( Guid publicationId)
         {
+            var publication = _libraryDbContext.Publications.SingleOrDefault(x => x.Id == publicationId);
+
+            if (publication == null)
+            {
+                return NotFound();
+            }
+
+            _libraryDbContext.Publications.Remove(publication);
+            _libraryDbContext.SaveChanges();
+
             return Ok();
         }
     }
