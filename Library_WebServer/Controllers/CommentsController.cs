@@ -1,5 +1,8 @@
+using Library_WebServer.Database;
 using Library_WebServer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
+using System.Diagnostics;
 
 namespace Library_WebServer.Controllers
 {
@@ -8,10 +11,12 @@ namespace Library_WebServer.Controllers
     public class CommentsController : ControllerBase
     {
         private readonly ILogger<CommentsController> _logger;
+        private readonly LibraryDbContext _libraryDbContext;
 
-        public CommentsController(ILogger<CommentsController> logger)
+        public CommentsController(ILogger<CommentsController> logger, LibraryDbContext libraryDbContext)
         {
             _logger = logger;
+            _libraryDbContext = libraryDbContext;
         }
 
         [HttpGet]
@@ -33,7 +38,19 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult PostComment([FromBody] LibraryComment comment)
         {
-            return Ok();
+            LibraryComment newComment = new LibraryComment()
+            {
+                Grade = comment.Grade,
+                Contents = comment.Contents,
+                PublicationId = _libraryDbContext.Publications.Single(x => x.Id == comment.PublicationId).Id,
+                UserId = _libraryDbContext.Users.Single(x => x.Id == comment.UserId).Id
+            };
+
+            _libraryDbContext.Comments.Add(newComment);
+
+            _libraryDbContext.SaveChanges();
+
+            return Ok(newComment);
         }
 
         [HttpPut]
