@@ -15,7 +15,7 @@ namespace Library_WebServer.Database
         public DbSet<LibraryObjectGenre> Genres { get; set; }
         public DbSet<LibraryObjectStatus> Statuses { get; set; }
         public DbSet<LibraryObjectType> PublicationTypes { get; set; }
-        public DbSet<UserAccountType> AccountTypes{ get; set; }
+        public DbSet<UserAccountType> AccountTypes { get; set; }
 
         public LibraryDbContext(DbContextOptions options) : base(options)
         {
