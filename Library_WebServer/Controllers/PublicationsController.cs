@@ -1,5 +1,8 @@
+using Library_WebServer.Database;
 using Library_WebServer.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
+
 
 namespace Library_WebServer.Controllers
 {
@@ -8,10 +11,12 @@ namespace Library_WebServer.Controllers
     public class PublicationsController : ControllerBase
     {
         private readonly ILogger<PublicationsController> _logger;
+        private readonly LibraryDbContext _libraryDbContext;
 
-        public PublicationsController(ILogger<PublicationsController> logger)
+        public PublicationsController(ILogger<PublicationsController> logger, LibraryDbContext libraryDbContext)
         {
             _logger = logger;
+            _libraryDbContext = libraryDbContext;
         }
 
         [HttpGet]
@@ -33,7 +38,18 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult PostPublication([FromBody] LibraryPublication publication)
         {
-            return Ok();
+            LibraryPublication newPublication = new LibraryPublication()
+            {
+                Name = publication.Name,
+                LibraryObjectType = _libraryDbContext.PublicationTypes.Single(x => x.Id == publication.LibraryObjectType.Id),
+                LibraryObjectGenre = _libraryDbContext.Genres.Single(x => x.Id == publication.LibraryObjectGenre.Id),
+            };
+
+            _libraryDbContext.Publications.Add(newPublication);
+
+            _libraryDbContext.SaveChanges();
+
+            return Ok(newPublication);
         }
 
         [HttpPut]

@@ -6,7 +6,7 @@ namespace Library_WebServer.Database
 {
     public class LibraryDbContext : DbContext
     {
-        private const string CONNECTION_STRING = "Server=localhost;Port=5432;Database=library;User Id=pgadmin;Password=pgpass;";
+        private const string CONNECTION_STRING = "Server=localhost;Port=5432;Database=library;User Id=admin;Password=admin;";
         public DbSet<User> Users { get; set; }
         public DbSet<LibraryAuthor> Authors { get; set; }
         public DbSet<LibraryComment> Comments { get; set; }
