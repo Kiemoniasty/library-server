@@ -1,13 +1,9 @@
 ﻿using Library_WebServer.Enums;
-using Library_WebServer.Models.Database;
 using System.Text.Json.Serialization;
 
-namespace Library_WebServer.Models.Requests;
-public class User
+namespace Library_WebServer.Models.Requests.User;
+public class UserRequestBaseModel
 {
-    [JsonPropertyName("Id")]
-    public Guid Id { get; set; }
-
     [JsonPropertyName("AccountType")]
     public UserAccountTypeEnum AccountType { get; set; }
 
@@ -26,22 +22,16 @@ public class User
     [JsonPropertyName("Address")]
     public string Address { get; set; } = string.Empty;
 
-    public User() { }
+    public UserRequestBaseModel() { }
 
-    public User(LibraryUser user)
+    public UserRequestBaseModel(
+        UserAccountTypeEnum accountType,
+        string name,
+        string password,
+        string email,
+        string phoneNumber,
+        string address)
     {
-        Id = user.Id;
-        Name = user.Name;
-        Password = user.Password;
-        Email = user.Email;
-        PhoneNumber = user.PhoneNumber;
-        Address = user.Address;
-        AccountType = user.UserAccountType.Id;
-    }
-
-    public User(Guid id, UserAccountTypeEnum accountType, string name, string password, string email, string phoneNumber, string address)
-    {
-        Id = id;
         AccountType = accountType;
         Name = name;
         Password = password;

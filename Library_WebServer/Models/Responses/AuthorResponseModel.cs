@@ -1,9 +1,9 @@
 ﻿using Library_WebServer.Models.Database;
 using System.Text.Json.Serialization;
 
-namespace Library_WebServer.Models.Requests;
+namespace Library_WebServer.Models.Responses;
 
-public class Author
+public class AuthorResponseModel
 {
     [JsonPropertyName("Id")]
     public Guid Id { get; set; }
@@ -14,16 +14,16 @@ public class Author
     [JsonPropertyName("LastName")]
     public string LastName { get; set; } = string.Empty;
 
-    public Author () { }
+    public AuthorResponseModel() { }
 
-    public Author(LibraryAuthor author)
+    public AuthorResponseModel(AuthorDbModel author)
     {
         Id = author.Id;
         FirstName = author.FirstName;
         LastName = author.LastName;
     }
 
-    public Author(Guid id, string firstName, string lastName)
+    public AuthorResponseModel(Guid id, string firstName, string lastName)
     {
         Id = id;
         FirstName = firstName;

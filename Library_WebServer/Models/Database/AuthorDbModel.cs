@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Library_WebServer.Models.Database;
 
-public class LibraryAuthor
+public class AuthorDbModel
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,8 +18,8 @@ public class LibraryAuthor
     [NotNull]
     public string LastName { get; set; } = string.Empty;
 
-    public LibraryAuthor() { }
-    public LibraryAuthor(
+    public AuthorDbModel() { }
+    public AuthorDbModel(
         Guid id, 
         string firstName, 
         string lastName)

@@ -1,6 +1,7 @@
 using Library_WebServer.Database;
 using Library_WebServer.Models.Database;
-using Library_WebServer.Models.Requests;
+using Library_WebServer.Models.Requests.Publication;
+using Library_WebServer.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,14 +23,14 @@ public class PublicationsController : ControllerBase
 
     [HttpGet]
     [Route("{publicationId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Publication))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PublicationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetPublication(Guid publicationId)
     {
         //TODO: Add request validation
-        LibraryPublication? publication = _libraryDbContext.Publications
+        PublicationDbModel? publication = _libraryDbContext.Publications
             .Include(p => p.LibraryObjectType)
             .Include(p => p.LibraryObjectGenre)
             .Include(p => p.LibraryObjectStatus)
@@ -42,27 +43,27 @@ public class PublicationsController : ControllerBase
             return NotFound();
         }
 
-        return Ok(new Publication(publication));
+        return Ok(new PublicationResponseModel(publication));
     }
 
     [HttpPost]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Publication))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PublicationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PostPublication([FromBody] Publication publication)
+    public IActionResult PostPublication([FromBody] PublicationRequestBaseModel publication)
     {
         //TODO: Add request validation
-        LibraryAuthor? author = _libraryDbContext.Authors
-            .SingleOrDefault(x => x.Id == publication.Author.Id);
+        AuthorDbModel? author = _libraryDbContext.Authors
+            .SingleOrDefault(x => x.Id == publication.AuthorId);
 
         if (author == null)
         {
             return BadRequest();
         }
 
-        LibraryPublication newPublication = new LibraryPublication()
+        PublicationDbModel newPublication = new PublicationDbModel()
         {
             Name = publication.Name,
             LibraryAuthor = author,
@@ -76,19 +77,19 @@ public class PublicationsController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new Publication(newPublication));
+        return Ok(new PublicationResponseModel(newPublication));
     }
 
     [HttpPut]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Publication))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PublicationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PutPublication([FromBody] Publication publication)
+    public IActionResult PutPublication([FromBody] PublicationRequestUpdateModel publication)
     {
         //TODO: Add request validation
-        LibraryPublication? newPublication = _libraryDbContext.Publications
+        PublicationDbModel? newPublication = _libraryDbContext.Publications
             .Include(x => x.LibraryObjectType)
             .Include(x => x.LibraryObjectGenre)
             .Include(x => x.LibraryObjectStatus)
@@ -106,25 +107,25 @@ public class PublicationsController : ControllerBase
         newPublication.LibraryObjectType = _libraryDbContext.PublicationTypes.Single(x => x.Id == publication.Type);
         newPublication.LibraryObjectGenre = _libraryDbContext.Genres.Single(x => x.Id == publication.Genre);
         newPublication.LibraryObjectStatus = _libraryDbContext.Statuses.Single(x => x.Id == publication.Status);
-        newPublication.LibraryAuthor = _libraryDbContext.Authors.Single(x => x.Id == publication.Author.Id);
+        newPublication.LibraryAuthor = _libraryDbContext.Authors.Single(x => x.Id == publication.AuthorId);
 
         _libraryDbContext.Publications.Update(newPublication);
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new Publication(newPublication));
+        return Ok(new PublicationResponseModel(newPublication));
     }
 
     [HttpDelete]
     [Route("{publicationId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Publication))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PublicationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult DeletePublication(Guid publicationId)
     {
         //TODO: Add request validation
-        LibraryPublication? publication = _libraryDbContext.Publications
+        PublicationDbModel? publication = _libraryDbContext.Publications
             .SingleOrDefault(x => x.Id == publicationId);
 
         if (publication == null)
@@ -140,14 +141,14 @@ public class PublicationsController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Publication))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PublicationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetPublications([FromQuery] int? top, [FromQuery] int? skip)
     {
         //TODO: Add request validation
-        List<Publication> publications = _libraryDbContext.Publications
+        List<PublicationResponseModel> publications = _libraryDbContext.Publications
             .Include(x => x.LibraryObjectType)
             .Include(x => x.LibraryObjectGenre)
             .Include(x => x.LibraryObjectStatus)
@@ -157,7 +158,7 @@ public class PublicationsController : ControllerBase
             .OrderBy(x => x.Name)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
-            .Select(x => new Publication(x))
+            .Select(x => new PublicationResponseModel(x))
             .ToList();
 
         return Ok(publications);

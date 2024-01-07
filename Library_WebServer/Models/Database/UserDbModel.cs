@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Library_WebServer.Models.Database;
-public class LibraryUser
+public class UserDbModel
 {
     [Key]
     public Guid Id { get; set; }
 
     [Required]
     [ForeignKey(nameof(UserAccountType) + ".Id")]
-    public UserAccountType UserAccountType { get; set; }
+    public UserAccountTypeDbModel UserAccountType { get; set; }
 
     [Required]
     [NotNull]
@@ -33,12 +33,12 @@ public class LibraryUser
     public string Address { get; set; } = string.Empty;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public LibraryUser() { }
+    public UserDbModel() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public LibraryUser(
+    public UserDbModel(
         Guid id, 
-        UserAccountType accountType, 
+        UserAccountTypeDbModel accountType, 
         string name, string password, 
         string email, 
         string phoneNumber, 

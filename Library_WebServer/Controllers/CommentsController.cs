@@ -1,6 +1,8 @@
 using Library_WebServer.Database;
 using Library_WebServer.Models.Database;
-using Library_WebServer.Models.Requests;
+using Library_WebServer.Models.Requests.Author;
+using Library_WebServer.Models.Requests.Comment;
+using Library_WebServer.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,14 +23,14 @@ public class CommentsController : ControllerBase
 
     [HttpGet]
     [Route("{commentId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Comment))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetComment(Guid commentId)
     {
         //TODO: Add request validation
-        LibraryComment? comment = _libraryDbContext.Comments
+        CommentDbModel? comment = _libraryDbContext.Comments
             .Include(x=>x.LibraryPublication)
             .Include(x => x.LibraryUser)
             .SingleOrDefault(x => x.Id == commentId);
@@ -38,20 +40,20 @@ public class CommentsController : ControllerBase
             return NotFound();
         }
 
-        return Ok(new Comment(comment));
+        return Ok(new CommentResponseModel(comment));
     }
 
     [HttpPost]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Comment))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PostComment([FromBody] Comment comment)
+    public IActionResult PostComment([FromBody] CommentRequestBaseModel comment)
     {
         //TODO: Add request validation
         //TODO: Add db data validation
-        LibraryComment newComment = new LibraryComment()
+        CommentDbModel newComment = new CommentDbModel()
         {
             Grade = comment.Grade,
             Contents = comment.Contents,
@@ -63,19 +65,19 @@ public class CommentsController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new Comment(newComment));
+        return Ok(new CommentResponseModel(newComment));
     }
 
     [HttpPut]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Comment))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PutComment([FromBody] Comment comment)
+    public IActionResult PutComment([FromBody] CommentRequestUpdateModel comment)
     {
         //TODO: Add request validation
-        LibraryComment? newComment = _libraryDbContext.Comments
+        CommentDbModel? newComment = _libraryDbContext.Comments
             .SingleOrDefault(p => p.Id == comment.Id);
 
         if (newComment == null)
@@ -94,12 +96,12 @@ public class CommentsController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new Comment(newComment));
+        return Ok(new CommentResponseModel(newComment));
     }
 
     [HttpDelete]
     [Route("{commentId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Comment))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -122,7 +124,7 @@ public class CommentsController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Comment))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -130,13 +132,13 @@ public class CommentsController : ControllerBase
     {
         //TODO: Add date to comment (db/model)
         //TODO: Add request validation
-        List<Comment> comments = _libraryDbContext.Comments
+        List<CommentResponseModel> comments = _libraryDbContext.Comments
             .Include(x => x.LibraryPublication)
             .Include(x => x.LibraryUser)
             .OrderBy(x => x.Grade)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
-            .Select(x => new Comment(x))
+            .Select(x => new CommentResponseModel(x))
             .ToList();
 
         return Ok(comments);

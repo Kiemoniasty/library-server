@@ -1,0 +1,15 @@
+﻿using Library_WebServer.Enums;
+using System.Text.Json.Serialization;
+
+namespace Library_WebServer.Models.Database;
+
+public class PublicationGenreDbModel : EnumTableDbModel<LibraryObjectGenreEnum>
+{
+    public PublicationGenreDbModel(LibraryObjectGenreEnum @enum) : base(@enum)
+    { }
+
+    [JsonConstructor]
+    public PublicationGenreDbModel(LibraryObjectGenreEnum id, string name) : base(id, name)
+    { }
+    protected PublicationGenreDbModel() { }
+}

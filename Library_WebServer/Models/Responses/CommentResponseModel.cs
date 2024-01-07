@@ -1,9 +1,9 @@
 ﻿using Library_WebServer.Models.Database;
 using System.Text.Json.Serialization;
 
-namespace Library_WebServer.Models.Requests;
+namespace Library_WebServer.Models.Responses;
 
-public class Comment
+public class CommentResponseModel
 {
     [JsonPropertyName("Id")]
     public Guid Id { get; set; }
@@ -20,9 +20,9 @@ public class Comment
     [JsonPropertyName("UserId")]
     public Guid UserId { get; set; }
 
-    public Comment() { }
+    public CommentResponseModel() { }
 
-    public Comment(LibraryComment comment)
+    public CommentResponseModel(CommentDbModel comment)
     {
         Id = comment.Id;
         Grade = comment.Grade;
@@ -31,7 +31,7 @@ public class Comment
         UserId = comment.LibraryUser.Id;
     }
 
-    public Comment(Guid id, ushort grade, string contents, Guid publicationId, Guid userId)
+    public CommentResponseModel(Guid id, ushort grade, string contents, Guid publicationId, Guid userId)
     {
         Id = id;
         Grade = grade;

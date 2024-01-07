@@ -1,9 +1,9 @@
 ﻿using Library_WebServer.Models.Database;
 using System.Text.Json.Serialization;
 
-namespace Library_WebServer.Models.Requests;
+namespace Library_WebServer.Models.Responses;
 
-public class Reservation
+public class ReservationResponseModel
 {
     [JsonPropertyName("Id")]
     public Guid Id { get; set; }
@@ -17,9 +17,9 @@ public class Reservation
     [JsonPropertyName("UserId")]
     public Guid UserId { get; set; }
 
-    public Reservation() { }
+    public ReservationResponseModel() { }
 
-    public Reservation(LibraryReservation reservation)
+    public ReservationResponseModel(ReservationDbModel reservation)
     {
         Id = reservation.Id;
         Date = reservation.Date;
@@ -27,7 +27,7 @@ public class Reservation
         UserId = reservation.LibraryUser.Id;
     }
 
-    public Reservation(Guid id, DateTime date, Guid publicationId, Guid userId)
+    public ReservationResponseModel(Guid id, DateTime date, Guid publicationId, Guid userId)
     {
         Id = id;
         Date = date;

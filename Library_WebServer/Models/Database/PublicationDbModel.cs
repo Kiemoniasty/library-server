@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Library_WebServer.Models.Database;
 
-public class LibraryPublication
+public class PublicationDbModel
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,34 +19,34 @@ public class LibraryPublication
 
     [Required]
     [ForeignKey(nameof(LibraryAuthor) + ".Id")]
-    public LibraryAuthor LibraryAuthor { get; set; }
+    public AuthorDbModel LibraryAuthor { get; set; }
 
     [Required]
     [ForeignKey(nameof(LibraryObjectType) + ".Id")]
-    public LibraryObjectType LibraryObjectType { get; set; }
+    public PublicationTypeDbModel LibraryObjectType { get; set; }
 
     [Required]
     [ForeignKey(nameof(LibraryObjectGenre) + ".Id")]
-    public virtual LibraryObjectGenre LibraryObjectGenre { get; set; }
+    public virtual PublicationGenreDbModel LibraryObjectGenre { get; set; }
 
     [Required]
     [ForeignKey(nameof(LibraryObjectStatus) + ".Id")]
-    public virtual LibraryObjectStatus LibraryObjectStatus { get; set; }
+    public virtual PublicationStatusDbModel LibraryObjectStatus { get; set; }
 
-    public List<LibraryReservation> LibraryReservations { get; set; }
+    public List<ReservationDbModel> LibraryReservations { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public LibraryPublication() { }
+    public PublicationDbModel() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public LibraryPublication(
+    public PublicationDbModel(
         Guid id, 
         string name, 
-        LibraryAuthor libraryAuthor,
-        LibraryObjectType objectType, 
-        LibraryObjectGenre genre,
-        LibraryObjectStatus status,
-        List<LibraryReservation> reservations)
+        AuthorDbModel libraryAuthor,
+        PublicationTypeDbModel objectType, 
+        PublicationGenreDbModel genre,
+        PublicationStatusDbModel status,
+        List<ReservationDbModel> reservations)
     {
         Id = id;
         Name = name;

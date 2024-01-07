@@ -2,9 +2,9 @@
 using Library_WebServer.Models.Database;
 using System.Text.Json.Serialization;
 
-namespace Library_WebServer.Models.Requests;
+namespace Library_WebServer.Models.Responses;
 
-public class Publication
+public class PublicationResponseModel
 {
     [JsonPropertyName("Id")]
     public Guid Id { get; set; }
@@ -13,7 +13,7 @@ public class Publication
     public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("Author")]
-    public Author Author { get; set; }
+    public AuthorResponseModel Author { get; set; }
 
     [JsonPropertyName("Type")]
     public LibraryObjectTypeEnum Type { get; set; }
@@ -25,31 +25,31 @@ public class Publication
     public LibraryObjectStatusEnum Status { get; set; }
 
     [JsonPropertyName("Reservations")]
-    public List<Reservation> Reservations { get; set; }
+    public List<ReservationResponseModel> Reservations { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public Publication() { }
+    public PublicationResponseModel() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public Publication(LibraryPublication publication)
+    public PublicationResponseModel(PublicationDbModel publication)
     {
         Id = publication.Id;
         Name = publication.Name;
-        Author = new Author(publication.LibraryAuthor);
+        Author = new AuthorResponseModel(publication.LibraryAuthor);
         Type = publication.LibraryObjectType.Id;
         Genre = publication.LibraryObjectGenre.Id;
         Status = publication.LibraryObjectStatus.Id;
-        Reservations = publication.LibraryReservations.Select(x => new Reservation(x)).ToList();
+        Reservations = publication.LibraryReservations.Select(x => new ReservationResponseModel(x)).ToList();
     }
 
-    public Publication(
+    public PublicationResponseModel(
         Guid id,
         string name,
-        Author author,
+        AuthorResponseModel author,
         LibraryObjectTypeEnum objectType,
         LibraryObjectGenreEnum genre,
         LibraryObjectStatusEnum status,
-        List<Reservation> reservations)
+        List<ReservationResponseModel> reservations)
     {
         Id = id;
         Name = name;

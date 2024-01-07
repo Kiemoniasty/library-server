@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Library_WebServer.Models.Database;
 
-public class EnumTable<TEnum>
+public class EnumTableDbModel<TEnum>
     where TEnum : struct
 {
     [Key]
@@ -18,17 +18,17 @@ public class EnumTable<TEnum>
     public string Name { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    protected EnumTable() { }
+    protected EnumTableDbModel() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public EnumTable(TEnum enumType)
+    public EnumTableDbModel(TEnum enumType)
     {
         Id = enumType;
         Name = enumType.ToString()!;
     }
 
     [JsonConstructor]
-    public EnumTable(
+    public EnumTableDbModel(
         TEnum enumType, 
         string name)
     {
@@ -36,6 +36,6 @@ public class EnumTable<TEnum>
         Name = name;
     }
 
-    public static implicit operator EnumTable<TEnum>(TEnum enumType) => new EnumTable<TEnum>(enumType);
-    public static implicit operator TEnum(EnumTable<TEnum> status) => status.Id;
+    public static implicit operator EnumTableDbModel<TEnum>(TEnum enumType) => new EnumTableDbModel<TEnum>(enumType);
+    public static implicit operator TEnum(EnumTableDbModel<TEnum> status) => status.Id;
 }

@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Library_WebServer.Models.Database;
 
-public class LibraryComment
+public class ReservationDbModel
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,34 +12,28 @@ public class LibraryComment
 
     [Required]
     [NotNull]
-    public ushort Grade { get; set; }
-
-    [Required]
-    [NotNull]
-    public string Contents { get; set; } = string.Empty;
+    public DateTime Date { get; set; }
 
     [Required]
     [ForeignKey(nameof(LibraryPublication) + ".Id")]
-    public LibraryPublication LibraryPublication { get; set; }
+    public PublicationDbModel LibraryPublication { get; set; }
 
     [Required]
     [ForeignKey(nameof(LibraryUser) + ".Id")]
-    public LibraryUser LibraryUser { get; set; }
+    public UserDbModel LibraryUser { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public LibraryComment() { }
+    public ReservationDbModel() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public LibraryComment(
+    public ReservationDbModel(
         Guid id, 
-        ushort grade, 
-        string contents, 
-        LibraryPublication publication, 
-        LibraryUser user)
+        DateTime date, 
+        PublicationDbModel publication, 
+        UserDbModel user)
     {
         Id = id;
-        Grade = grade;
-        Contents = contents;
+        Date = date;
         LibraryPublication = publication;
         LibraryUser = user;
     }

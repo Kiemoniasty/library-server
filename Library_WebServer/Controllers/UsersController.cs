@@ -1,6 +1,7 @@
 using Library_WebServer.Database;
 using Library_WebServer.Models.Database;
-using Library_WebServer.Models.Requests;
+using Library_WebServer.Models.Requests.User;
+using Library_WebServer.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,14 +22,14 @@ public class UsersController : ControllerBase
 
     [HttpGet]
     [Route("{userId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetUser([FromRoute] Guid userId)
     {
         //TODO: Add request validation
-        LibraryUser? user = _libraryDbContext.Users
+        UserDbModel? user = _libraryDbContext.Users
             .Include(x => x.UserAccountType)
             .SingleOrDefault(x => x.Id == userId);
 
@@ -37,20 +38,20 @@ public class UsersController : ControllerBase
             return NotFound();
         }
 
-        return Ok(new User(user));
+        return Ok(new UserResponseModel(user));
     }
 
     [HttpPost]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PostUser([FromBody] User user)
+    public IActionResult PostUser([FromBody] UserRequestBaseModel user)
     {
         //TODO: Add request validation
         //TODO: Add db data validation
-        LibraryUser newUser = new LibraryUser()
+        UserDbModel newUser = new UserDbModel()
         {
             Address = user.Address,
             Email = user.Email,
@@ -64,20 +65,20 @@ public class UsersController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new User(newUser));
+        return Ok(new UserResponseModel(newUser));
     }
 
     [HttpPut]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PutUser([FromBody] User user)
+    public IActionResult PutUser([FromBody] UserRequestUpdateModel user)
     {
         //TODO: Add request validation
         //TODO: Add db data validation
-        LibraryUser? newUser = _libraryDbContext.Users
+        UserDbModel? newUser = _libraryDbContext.Users
             .SingleOrDefault(p => p.Id == user.Id);
 
         if (newUser == null)
@@ -96,19 +97,19 @@ public class UsersController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new User(newUser));
+        return Ok(new UserResponseModel(newUser));
     }
 
     [HttpDelete]
     [Route("{userId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult DeleteUser([FromRoute] Guid userId)
     {
         //TODO: Add request validation
-        LibraryUser? user = _libraryDbContext.Users
+        UserDbModel? user = _libraryDbContext.Users
             .SingleOrDefault(x => x.Id == userId);
 
         if (user == null)
@@ -124,19 +125,19 @@ public class UsersController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetUsers([FromQuery] int? top, [FromQuery] int? skip)
     {
         //TODO: Add request validation
-        List<User> users = _libraryDbContext.Users
-            .Include(x=>x.UserAccountType)
+        List<UserResponseModel> users = _libraryDbContext.Users
+            .Include(x => x.UserAccountType)
             .OrderBy(x => x.Name)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
-            .Select(x => new User(x))
+            .Select(x => new UserResponseModel(x))
             .ToList();
 
         return Ok(users);

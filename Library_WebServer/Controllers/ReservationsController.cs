@@ -1,6 +1,7 @@
 using Library_WebServer.Database;
 using Library_WebServer.Models.Database;
-using Library_WebServer.Models.Requests;
+using Library_WebServer.Models.Requests.Reservation;
+using Library_WebServer.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +22,7 @@ public class ReservationsController : ControllerBase
 
     [HttpGet]
     [Route("{reservationId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Reservation))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -38,20 +39,20 @@ public class ReservationsController : ControllerBase
             return NotFound();
         }
 
-        return Ok(new Reservation(reservation));
+        return Ok(new ReservationResponseModel(reservation));
     }
 
     [HttpPost]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Reservation))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PostReservation([FromBody] Reservation reservation)
+    public IActionResult PostReservation([FromBody] ReservationRequestBaseModel reservation)
     {
         //TODO: Add request validation
         //TODO: Add db data validation
-        LibraryReservation newReservation = new LibraryReservation()
+        ReservationDbModel newReservation = new ReservationDbModel()
         {
             Date = reservation.Date,
             LibraryPublication = _libraryDbContext.Publications.Single(x => x.Id == reservation.PublicationId),
@@ -62,20 +63,20 @@ public class ReservationsController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new Reservation(newReservation));
+        return Ok(new ReservationResponseModel(newReservation));
     }
 
     [HttpPut]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Reservation))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PutReservation([FromBody] Reservation reservation)
+    public IActionResult PutReservation([FromBody] ReservationRequestUpdateModel reservation)
     {
         //TODO: Add request validation
         //TODO: Add db data validation
-        LibraryReservation newReservation = new LibraryReservation()
+        ReservationDbModel newReservation = new ReservationDbModel()
         {
             Id = reservation.Id,
             Date = reservation.Date,
@@ -87,12 +88,12 @@ public class ReservationsController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new Reservation(newReservation));
+        return Ok(new ReservationResponseModel(newReservation));
     }
 
     [HttpDelete]
     [Route("{reservationId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Reservation))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -113,20 +114,20 @@ public class ReservationsController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Reservation))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetPublications([FromQuery] int? top, [FromQuery] int? skip)
     {
         //TODO: Add request validation
-        List<Reservation> reservations = _libraryDbContext.Reservations
+        List<ReservationResponseModel> reservations = _libraryDbContext.Reservations
             .Include(p => p.LibraryPublication)
             .Include(p => p.LibraryUser)
             .OrderBy(x => x.Date)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
-            .Select(x => new Reservation(x))
+            .Select(x => new ReservationResponseModel(x))
             .ToList();
 
         return Ok(reservations);

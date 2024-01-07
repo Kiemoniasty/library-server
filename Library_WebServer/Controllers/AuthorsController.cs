@@ -1,6 +1,7 @@
 using Library_WebServer.Database;
 using Library_WebServer.Models.Database;
-using Library_WebServer.Models.Requests;
+using Library_WebServer.Models.Requests.Author;
+using Library_WebServer.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -21,14 +22,14 @@ public class AuthorsController : ControllerBase
 
     [HttpGet]
     [Route("{authorId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Author))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthorResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetAuthor(Guid authorId)
     {
         //TODO: Add request validation
-        LibraryAuthor? author = _libraryDbContext.Authors
+        AuthorDbModel? author = _libraryDbContext.Authors
             .SingleOrDefault(x => x.Id == authorId);
 
         if (author == null)
@@ -36,19 +37,19 @@ public class AuthorsController : ControllerBase
             return NotFound();
         }
 
-        return Ok(new Author(author));
+        return Ok(new AuthorResponseModel(author));
     }
 
     [HttpPost]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Author))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthorResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PostAuthor([FromBody] Author author)
+    public IActionResult PostAuthor([FromBody] AuthorRequestBaseModel author)
     {
         //TODO: Add request validation
-        LibraryAuthor newAuthor = new LibraryAuthor()
+        AuthorDbModel newAuthor = new AuthorDbModel()
         {
             FirstName = author.FirstName,
             LastName = author.LastName
@@ -58,19 +59,19 @@ public class AuthorsController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new Author(newAuthor));
+        return Ok(new AuthorResponseModel(newAuthor));
     }
 
     [HttpPut]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Author))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthorResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PutAuthor([FromBody] Author author)
+    public IActionResult PutAuthor([FromBody] AuthorRequestUpdateModel author)
     {
         //TODO: Add request validation
-        LibraryAuthor? newAuthor = _libraryDbContext.Authors
+        AuthorDbModel? newAuthor = _libraryDbContext.Authors
             .SingleOrDefault(p => p.Id == author.Id);
 
         if (newAuthor == null)
@@ -85,19 +86,19 @@ public class AuthorsController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new Author(newAuthor));
+        return Ok(new AuthorResponseModel(newAuthor));
     }
 
     [HttpDelete]
     [Route("{authorId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Author))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthorResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult DeleteAuthor(Guid authorId)
     {
         //TODO: Add request validation
-        LibraryAuthor? author = _libraryDbContext.Authors
+        AuthorDbModel? author = _libraryDbContext.Authors
             .SingleOrDefault(x => x.Id == authorId);
 
         if (author == null)
@@ -113,18 +114,18 @@ public class AuthorsController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Author))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AuthorResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetAuthors([FromQuery] int? top, [FromQuery] int? skip)
     {
         //TODO: Add request validation
-        List<Author> authors = _libraryDbContext.Authors
+        List<AuthorResponseModel> authors = _libraryDbContext.Authors
             .OrderBy(x => x.LastName)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
-            .Select(x => new Author(x))
+            .Select(x => new AuthorResponseModel(x))
             .ToList();
 
         return Ok(authors);
