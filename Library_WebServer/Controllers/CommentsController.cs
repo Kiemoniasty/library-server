@@ -83,8 +83,19 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult DeleteComment([FromRoute] Guid commentId)
+        public IActionResult DeleteComment( Guid commentId)
         {
+            var comment = _libraryDbContext.Comments.SingleOrDefault(x => x.Id == commentId);
+
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            _libraryDbContext.Comments.Remove(comment);
+
+            _libraryDbContext.SaveChanges();
+
             return Ok();
         }
     }
