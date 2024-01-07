@@ -58,7 +58,19 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult PutReservation([FromBody] LibraryReservation reservation)
         {
-            return Ok();
+            LibraryReservation newReservation = new LibraryReservation()
+            {
+                Id = reservation.Id,
+                Date = reservation.Date,
+                LibraryPublication = _libraryDbContext.Publications.Single(x => x.Id == reservation.LibraryPublication).Id,
+                User = _libraryDbContext.Users.Single(x => x.Id == reservation.User).Id
+            };
+
+            _libraryDbContext.Reservations.Update(newReservation);
+
+            _libraryDbContext.SaveChanges();
+
+            return Ok(newReservation);
         }
 
         [HttpDelete]
@@ -67,8 +79,18 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult DeleteReservation([FromRoute] Guid reservationId)
+        public IActionResult DeleteReservation(Guid reservationId)
         {
+            var reservation = _libraryDbContext.Reservations.SingleOrDefault(x => x.Id == reservationId);
+
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+
+            _libraryDbContext.Reservations.Remove(reservation);
+            _libraryDbContext.SaveChanges();
+
             return Ok();
         }
     }
