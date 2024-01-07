@@ -1,6 +1,7 @@
 using Library_WebServer.Database;
 using Library_WebServer.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
 
@@ -25,9 +26,16 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetComment([FromRoute] Guid commentId)
+        public IActionResult GetComment(Guid commentId)
         {
-            return Ok();
+            var comment = _libraryDbContext.Comments.SingleOrDefault(x => x.Id == commentId);
+ 
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(comment);
         }
 
         [HttpPost]
