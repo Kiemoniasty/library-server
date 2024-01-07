@@ -23,9 +23,16 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult GetReservation([FromRoute] Guid reservationId)
+        public IActionResult GetReservation(Guid reservationId)
         {
-            return Ok();
+            var reservation = _libraryDbContext.Reservations.SingleOrDefault(x => x.Id == reservationId);
+
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(reservation);
         }
 
         [HttpPost]
