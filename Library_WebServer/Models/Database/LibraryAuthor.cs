@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Library_WebServer.Models;
+namespace Library_WebServer.Models.Database;
 
 public class LibraryAuthor
 {
@@ -19,7 +19,10 @@ public class LibraryAuthor
     public string LastName { get; set; } = string.Empty;
 
     public LibraryAuthor() { }
-    public LibraryAuthor(Guid id, string firstName, string lastName)
+    public LibraryAuthor(
+        Guid id, 
+        string firstName, 
+        string lastName)
     {
         Id = id;
         FirstName = firstName;

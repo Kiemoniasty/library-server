@@ -1,5 +1,6 @@
 ﻿using Library_WebServer.Enums;
-using Library_WebServer.Models;
+using Library_WebServer.Models.Database;
+using Library_WebServer.Models.Requests;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library_WebServer.Database
@@ -7,7 +8,7 @@ namespace Library_WebServer.Database
     public class LibraryDbContext : DbContext
     {
         private const string CONNECTION_STRING = "Server=localhost;Port=5432;Database=library;User Id=admin;Password=admin;";
-        public DbSet<User> Users { get; set; }
+        public DbSet<LibraryUser> Users { get; set; }
         public DbSet<LibraryAuthor> Authors { get; set; }
         public DbSet<LibraryComment> Comments { get; set; }
         public DbSet<LibraryPublication> Publications { get; set; }
@@ -32,7 +33,7 @@ namespace Library_WebServer.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<LibraryUser>().ToTable("Users");
 
             modelBuilder.Entity<LibraryAuthor>().ToTable("Authors");
             modelBuilder.Entity<LibraryComment>().ToTable("Comments");

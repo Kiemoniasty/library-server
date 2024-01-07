@@ -1,27 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
-using Library_WebServer.Enums;
 
-namespace Library_WebServer.Models;
+namespace Library_WebServer.Models.Database;
 
-[JsonDerivedType(typeof(UserAccountType))]
 public class EnumTable<TEnum>
     where TEnum : struct
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
-    [JsonPropertyName("Id")]
     public TEnum Id { get; set; }
 
     [Required]
     [MaxLength(100)]
     [NotNull]
-    [JsonPropertyName("Name")]
     public string Name { get; set; }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     protected EnumTable() { }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
     public EnumTable(TEnum enumType)
     {
@@ -30,7 +28,9 @@ public class EnumTable<TEnum>
     }
 
     [JsonConstructor]
-    public EnumTable(TEnum enumType, string name)
+    public EnumTable(
+        TEnum enumType, 
+        string name)
     {
         Id = enumType;
         Name = name;

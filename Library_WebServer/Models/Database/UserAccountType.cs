@@ -1,7 +1,7 @@
 ﻿using Library_WebServer.Enums;
 using System.Text.Json.Serialization;
 
-namespace Library_WebServer.Models;
+namespace Library_WebServer.Models.Database;
 
 public class UserAccountType : EnumTable<UserAccountTypeEnum>
 {
