@@ -1,7 +1,6 @@
-﻿using Library_WebServer.Models.Requests.Comment;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace Library_WebServer.Models.Requests.Author;
+namespace Library_WebServer.Models.Requests.Comment;
 
 public class CommentRequestUpdateModel : CommentRequestBaseModel
 {
