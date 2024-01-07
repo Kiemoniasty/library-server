@@ -120,10 +120,11 @@ public class AuthorsController : ControllerBase
     public IActionResult GetAuthors([FromQuery] int? top, [FromQuery] int? skip)
     {
         //TODO: Add request validation
-        List<LibraryAuthor> authors = _libraryDbContext.Authors
+        List<Author> authors = _libraryDbContext.Authors
             .OrderBy(x => x.LastName)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
+            .Select(x => new Author(x))
             .ToList();
 
         return Ok(authors);

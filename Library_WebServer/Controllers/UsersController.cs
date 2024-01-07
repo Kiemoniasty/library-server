@@ -121,4 +121,24 @@ public class UsersController : ControllerBase
 
         return Ok();
     }
+
+    [HttpGet]
+    [Route("")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public IActionResult GetUsers([FromQuery] int? top, [FromQuery] int? skip)
+    {
+        //TODO: Add request validation
+        List<User> users = _libraryDbContext.Users
+            .Include(x=>x.UserAccountType)
+            .OrderBy(x => x.Name)
+            .Take(top ?? 10)
+            .Skip(skip ?? 0)
+            .Select(x => new User(x))
+            .ToList();
+
+        return Ok(users);
+    }
 }

@@ -119,4 +119,26 @@ public class CommentsController : ControllerBase
 
         return Ok();
     }
+
+    [HttpGet]
+    [Route("")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Comment))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public IActionResult GetComments([FromQuery] int? top, [FromQuery] int? skip)
+    {
+        //TODO: Add date to comment (db/model)
+        //TODO: Add request validation
+        List<Comment> comments = _libraryDbContext.Comments
+            .Include(x => x.LibraryPublication)
+            .Include(x => x.LibraryUser)
+            .OrderBy(x => x.Grade)
+            .Take(top ?? 10)
+            .Skip(skip ?? 0)
+            .Select(x => new Comment(x))
+            .ToList();
+
+        return Ok(comments);
+    }
 }

@@ -147,22 +147,18 @@ public class PublicationsController : ControllerBase
     public IActionResult GetPublications([FromQuery] int? top, [FromQuery] int? skip)
     {
         //TODO: Add request validation
-        List<LibraryPublication> publications = _libraryDbContext.Publications
+        List<Publication> publications = _libraryDbContext.Publications
             .Include(p => p.LibraryObjectType)
             .Include(p => p.LibraryObjectGenre)
+            .Include(p => p.LibraryObjectStatus)
+            .Include(p => p.LibraryAuthor)
             .Include(p => p.LibraryReservations)
             .OrderBy(x => x.Name)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
+            .Select(x => new Publication(x))
             .ToList();
 
-        List<Publication> publicationsList = new();
-
-        foreach (LibraryPublication publication in publications)
-        {
-            publicationsList.Add(new Publication(publication));
-        }
-
-        return Ok(publicationsList);
+        return Ok(publications);
     }
 }
