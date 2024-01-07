@@ -39,12 +39,7 @@ public class Publication
         Type = publication.LibraryObjectType.Id;
         Genre = publication.LibraryObjectGenre.Id;
         Status = publication.LibraryObjectStatus.Id;
-        Reservations = new List<Reservation>();
-
-        foreach(LibraryReservation reservation in publication.LibraryReservations)
-        {
-            Reservations.Add(new Reservation(reservation));
-        }
+        Reservations = publication.LibraryReservations.Select(x => new Reservation(x)).ToList();
     }
 
     public Publication(

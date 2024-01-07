@@ -110,4 +110,25 @@ public class ReservationsController : ControllerBase
 
         return Ok();
     }
+
+    [HttpGet]
+    [Route("")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Reservation))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public IActionResult GetPublications([FromQuery] int? top, [FromQuery] int? skip)
+    {
+        //TODO: Add request validation
+        List<Reservation> reservations = _libraryDbContext.Reservations
+            .Include(p => p.LibraryPublication)
+            .Include(p => p.LibraryUser)
+            .OrderBy(x => x.Date)
+            .Take(top ?? 10)
+            .Skip(skip ?? 0)
+            .Select(x => new Reservation(x))
+            .ToList();
+
+        return Ok(reservations);
+    }
 }

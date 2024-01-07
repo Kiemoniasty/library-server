@@ -89,11 +89,11 @@ public class PublicationsController : ControllerBase
     {
         //TODO: Add request validation
         LibraryPublication? newPublication = _libraryDbContext.Publications
-            .Include(p => p.LibraryObjectType)
-            .Include(p => p.LibraryObjectGenre)
-            .Include(p => p.LibraryObjectStatus)
-            .Include(p => p.LibraryAuthor)
-            .Include(p => p.LibraryReservations)
+            .Include(x => x.LibraryObjectType)
+            .Include(x => x.LibraryObjectGenre)
+            .Include(x => x.LibraryObjectStatus)
+            .Include(x => x.LibraryAuthor)
+            .Include(x => x.LibraryReservations)
             .SingleOrDefault(p => p.Id == publication.Id);
 
         if (newPublication == null)
@@ -148,11 +148,12 @@ public class PublicationsController : ControllerBase
     {
         //TODO: Add request validation
         List<Publication> publications = _libraryDbContext.Publications
-            .Include(p => p.LibraryObjectType)
-            .Include(p => p.LibraryObjectGenre)
-            .Include(p => p.LibraryObjectStatus)
-            .Include(p => p.LibraryAuthor)
-            .Include(p => p.LibraryReservations)
+            .Include(x => x.LibraryObjectType)
+            .Include(x => x.LibraryObjectGenre)
+            .Include(x => x.LibraryObjectStatus)
+            .Include(x => x.LibraryAuthor)
+            .Include(x => x.LibraryReservations)
+                .ThenInclude(x => x.LibraryUser)
             .OrderBy(x => x.Name)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
