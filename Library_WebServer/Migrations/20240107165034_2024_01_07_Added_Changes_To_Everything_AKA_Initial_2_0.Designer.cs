@@ -3,6 +3,7 @@ using System;
 using Library_WebServer.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Library_WebServer.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240107165034_2024_01_07_Added_Changes_To_Everything_AKA_Initial_2_0")]
+    partial class _2024_01_07_Added_Changes_To_Everything_AKA_Initial_2_0
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace Library_WebServer.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Library_WebServer.Models.Database.AuthorDbModel", b =>
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryAuthor", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,7 +44,7 @@ namespace Library_WebServer.Migrations
                     b.ToTable("Authors", (string)null);
                 });
 
-            modelBuilder.Entity("Library_WebServer.Models.Database.CommentDbModel", b =>
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryComment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,7 +72,119 @@ namespace Library_WebServer.Migrations
                     b.ToTable("Comments", (string)null);
                 });
 
-            modelBuilder.Entity("Library_WebServer.Models.Database.PublicationDbModel", b =>
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryObjectGenre", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "Id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasAnnotation("Relational:JsonPropertyName", "Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genres", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 0,
+                            Name = "Horror"
+                        },
+                        new
+                        {
+                            Id = 1,
+                            Name = "ScienceFiction"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Fantasy"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Cooking"
+                        });
+                });
+
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryObjectStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "Id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasAnnotation("Relational:JsonPropertyName", "Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Statuses", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 0,
+                            Name = "Available"
+                        },
+                        new
+                        {
+                            Id = 1,
+                            Name = "Reserved"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Unavailable"
+                        });
+                });
+
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryObjectType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "Id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasAnnotation("Relational:JsonPropertyName", "Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PublicationTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 0,
+                            Name = "Book"
+                        },
+                        new
+                        {
+                            Id = 1,
+                            Name = "Magazine"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Newspaper"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "ScientificPaper"
+                        });
+                });
+
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryPublication", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,113 +220,7 @@ namespace Library_WebServer.Migrations
                     b.ToTable("Publications", (string)null);
                 });
 
-            modelBuilder.Entity("Library_WebServer.Models.Database.PublicationGenreDbModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Genres", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 0,
-                            Name = "Horror"
-                        },
-                        new
-                        {
-                            Id = 1,
-                            Name = "ScienceFiction"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Fantasy"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Cooking"
-                        });
-                });
-
-            modelBuilder.Entity("Library_WebServer.Models.Database.PublicationStatusDbModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Statuses", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 0,
-                            Name = "Available"
-                        },
-                        new
-                        {
-                            Id = 1,
-                            Name = "Reserved"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Unavailable"
-                        });
-                });
-
-            modelBuilder.Entity("Library_WebServer.Models.Database.PublicationTypeDbModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PublicationTypes", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 0,
-                            Name = "Book"
-                        },
-                        new
-                        {
-                            Id = 1,
-                            Name = "Magazine"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Newspaper"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "ScientificPaper"
-                        });
-                });
-
-            modelBuilder.Entity("Library_WebServer.Models.Database.ReservationDbModel", b =>
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryReservation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -235,39 +244,7 @@ namespace Library_WebServer.Migrations
                     b.ToTable("Reservations", (string)null);
                 });
 
-            modelBuilder.Entity("Library_WebServer.Models.Database.UserAccountTypeDbModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountTypes", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 0,
-                            Name = "User"
-                        },
-                        new
-                        {
-                            Id = 1,
-                            Name = "Librarian"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Admin"
-                        });
-                });
-
-            modelBuilder.Entity("Library_WebServer.Models.Database.UserDbModel", b =>
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -303,15 +280,49 @@ namespace Library_WebServer.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("Library_WebServer.Models.Database.CommentDbModel", b =>
+            modelBuilder.Entity("Library_WebServer.Models.Database.UserAccountType", b =>
                 {
-                    b.HasOne("Library_WebServer.Models.Database.PublicationDbModel", "LibraryPublication")
+                    b.Property<int>("Id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Relational:JsonPropertyName", "Id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasAnnotation("Relational:JsonPropertyName", "Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AccountTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 0,
+                            Name = "User"
+                        },
+                        new
+                        {
+                            Id = 1,
+                            Name = "Librarian"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Admin"
+                        });
+                });
+
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryComment", b =>
+                {
+                    b.HasOne("Library_WebServer.Models.Database.LibraryPublication", "LibraryPublication")
                         .WithMany()
                         .HasForeignKey("LibraryPublication.Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Library_WebServer.Models.Database.UserDbModel", "LibraryUser")
+                    b.HasOne("Library_WebServer.Models.Database.LibraryUser", "LibraryUser")
                         .WithMany()
                         .HasForeignKey("LibraryUser.Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -322,27 +333,27 @@ namespace Library_WebServer.Migrations
                     b.Navigation("LibraryUser");
                 });
 
-            modelBuilder.Entity("Library_WebServer.Models.Database.PublicationDbModel", b =>
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryPublication", b =>
                 {
-                    b.HasOne("Library_WebServer.Models.Database.AuthorDbModel", "LibraryAuthor")
+                    b.HasOne("Library_WebServer.Models.Database.LibraryAuthor", "LibraryAuthor")
                         .WithMany()
                         .HasForeignKey("LibraryAuthor.Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Library_WebServer.Models.Database.PublicationGenreDbModel", "LibraryObjectGenre")
+                    b.HasOne("Library_WebServer.Models.Database.LibraryObjectGenre", "LibraryObjectGenre")
                         .WithMany()
                         .HasForeignKey("LibraryObjectGenre.Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Library_WebServer.Models.Database.PublicationStatusDbModel", "LibraryObjectStatus")
+                    b.HasOne("Library_WebServer.Models.Database.LibraryObjectStatus", "LibraryObjectStatus")
                         .WithMany()
                         .HasForeignKey("LibraryObjectStatus.Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Library_WebServer.Models.Database.PublicationTypeDbModel", "LibraryObjectType")
+                    b.HasOne("Library_WebServer.Models.Database.LibraryObjectType", "LibraryObjectType")
                         .WithMany()
                         .HasForeignKey("LibraryObjectType.Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -357,15 +368,15 @@ namespace Library_WebServer.Migrations
                     b.Navigation("LibraryObjectType");
                 });
 
-            modelBuilder.Entity("Library_WebServer.Models.Database.ReservationDbModel", b =>
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryReservation", b =>
                 {
-                    b.HasOne("Library_WebServer.Models.Database.PublicationDbModel", "LibraryPublication")
+                    b.HasOne("Library_WebServer.Models.Database.LibraryPublication", "LibraryPublication")
                         .WithMany("LibraryReservations")
                         .HasForeignKey("LibraryPublication.Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Library_WebServer.Models.Database.UserDbModel", "LibraryUser")
+                    b.HasOne("Library_WebServer.Models.Database.LibraryUser", "LibraryUser")
                         .WithMany()
                         .HasForeignKey("LibraryUser.Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -376,9 +387,9 @@ namespace Library_WebServer.Migrations
                     b.Navigation("LibraryUser");
                 });
 
-            modelBuilder.Entity("Library_WebServer.Models.Database.UserDbModel", b =>
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryUser", b =>
                 {
-                    b.HasOne("Library_WebServer.Models.Database.UserAccountTypeDbModel", "UserAccountType")
+                    b.HasOne("Library_WebServer.Models.Database.UserAccountType", "UserAccountType")
                         .WithMany()
                         .HasForeignKey("UserAccountType.Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -387,7 +398,7 @@ namespace Library_WebServer.Migrations
                     b.Navigation("UserAccountType");
                 });
 
-            modelBuilder.Entity("Library_WebServer.Models.Database.PublicationDbModel", b =>
+            modelBuilder.Entity("Library_WebServer.Models.Database.LibraryPublication", b =>
                 {
                     b.Navigation("LibraryReservations");
                 });
