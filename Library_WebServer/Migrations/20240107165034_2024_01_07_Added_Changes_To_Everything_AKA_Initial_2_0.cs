@@ -31,19 +31,19 @@ namespace Library_WebServer.Migrations
                 table: "Comments",
                 newName: "LibraryPublication.Id");
 
-            //migrationBuilder.AddColumn<Guid>(
-            //    name: "LibraryAuthor.Id",
-            //    table: "Publications",
-            //    type: "uuid",
-            //    nullable: false,
-            //    defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+            migrationBuilder.AddColumn<Guid>(
+                name: "LibraryAuthor.Id",
+                table: "Publications",
+                type: "uuid",
+                nullable: false,
+                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
-            //migrationBuilder.AddColumn<int>(
-            //    name: "LibraryObjectStatus.Id",
-            //    table: "Publications",
-            //    type: "integer",
-            //    nullable: false,
-            //    defaultValue: 0);
+            migrationBuilder.AddColumn<int>(
+                name: "LibraryObjectStatus.Id",
+                table: "Publications",
+                type: "integer",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_LibraryPublication.Id",
@@ -55,15 +55,15 @@ namespace Library_WebServer.Migrations
                 table: "Reservations",
                 column: "LibraryUser.Id");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_Publications_LibraryAuthor.Id",
-            //    table: "Publications",
-            //    column: "LibraryAuthor.Id");
+            migrationBuilder.CreateIndex(
+                name: "IX_Publications_LibraryAuthor.Id",
+                table: "Publications",
+                column: "LibraryAuthor.Id");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_Publications_LibraryObjectStatus.Id",
-            //    table: "Publications",
-            //    column: "LibraryObjectStatus.Id");
+            migrationBuilder.CreateIndex(
+                name: "IX_Publications_LibraryObjectStatus.Id",
+                table: "Publications",
+                column: "LibraryObjectStatus.Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_LibraryPublication.Id",
@@ -91,13 +91,13 @@ namespace Library_WebServer.Migrations
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
 
-            //migrationBuilder.AddForeignKey(
-            //    name: "FK_Publications_Authors_LibraryAuthor.Id",
-            //    table: "Publications",
-            //    column: "LibraryAuthor.Id",
-            //    principalTable: "Authors",
-            //    principalColumn: "Id",
-            //    onDelete: ReferentialAction.Cascade);
+            migrationBuilder.AddForeignKey(
+                name: "FK_Publications_Authors_LibraryAuthor.Id",
+                table: "Publications",
+                column: "LibraryAuthor.Id",
+                principalTable: "Authors",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Publications_Statuses_LibraryObjectStatus.Id",
