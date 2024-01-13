@@ -123,7 +123,7 @@ public class CommentsController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentResponseModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginationResponseModel<CommentResponseModel>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -140,6 +140,8 @@ public class CommentsController : ControllerBase
             .Select(x => new CommentResponseModel(x))
             .ToList();
 
-        return Ok(comments);
+        int count = _libraryDbContext.Comments.Count();
+
+        return Ok(new PaginationResponseModel<CommentResponseModel>(comments, count));
     }
 }
