@@ -1,6 +1,7 @@
 ﻿using Library_WebServer.Database;
 using Library_WebServer.Models.Database;
 using Library_WebServer.Models.Requests.Rental;
+using Library_WebServer.Models.Requests.Reservation;
 using Library_WebServer.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -48,14 +49,14 @@ public class RentalsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PostReservation([FromBody] RentalRequestBaseModel rental)
+    public IActionResult PostRental([FromBody] RentalRequestBaseModel rental)
     {
         //TODO: Add request validation
         //TODO: Add db data validation
         RentalDbModel newRental = new RentalDbModel()
         {
             Date = rental.Date,
-            IsBorrow = rental.IsBorrow,
+            IsBorrowed = rental.IsBorrowed,
             LibraryPublication = _libraryDbContext.Publications.Single(x => x.Id == rental.PublicationId),
             LibraryUser = _libraryDbContext.Users.Single(x => x.Id == rental.UserId)
         };
@@ -67,13 +68,13 @@ public class RentalsController : ControllerBase
         return Ok(new RentalResponseModel(newRental));
     }
 
-    [HttpPost]
+    [HttpPut]
     [Route("")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RentalResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult PutReservation([FromBody] RentalRequestUpdateModel rental)
+    public IActionResult PutRental([FromBody] RentalRequestUpdateModel rental)
     {
         //TODO: Add request validation
         //TODO: Add db data validation
@@ -81,7 +82,7 @@ public class RentalsController : ControllerBase
         {
             Id = rental.Id,
             Date = rental.Date,
-            IsBorrow = rental.IsBorrow,
+            IsBorrowed = rental.IsBorrowed,
             LibraryPublication = _libraryDbContext.Publications.Single(x => x.Id == rental.PublicationId),
             LibraryUser = _libraryDbContext.Users.Single(x => x.Id == rental.UserId)
         };
@@ -99,7 +100,7 @@ public class RentalsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult DeleteReservation(Guid rentalId)
+    public IActionResult DeleteRental(Guid rentalId)
     {
         var rental = _libraryDbContext.Rentals.SingleOrDefault(x => x.Id == rentalId);
 
@@ -120,7 +121,7 @@ public class RentalsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult GetPublications([FromQuery] int? top, [FromQuery] int? skip)
+    public IActionResult GetRentals([FromQuery] int? top, [FromQuery] int? skip)
     {
         //TODO: Add request validation
         List<RentalResponseModel> rentals = _libraryDbContext.Rentals

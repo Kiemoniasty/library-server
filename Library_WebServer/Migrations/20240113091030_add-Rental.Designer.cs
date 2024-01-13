@@ -3,6 +3,7 @@ using System;
 using Library_WebServer.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Library_WebServer.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    partial class LibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240113091030_add-Rental")]
+    partial class addRental
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,7 +223,7 @@ namespace Library_WebServer.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsBorrowed")
+                    b.Property<bool>("IsBorrow")
                         .HasColumnType("boolean");
 
                     b.Property<Guid>("LibraryPublication.Id")
@@ -393,7 +396,7 @@ namespace Library_WebServer.Migrations
                         .IsRequired();
 
                     b.HasOne("Library_WebServer.Models.Database.UserDbModel", "LibraryUser")
-                        .WithMany("LibraryRentals")
+                        .WithMany("LibraryRental")
                         .HasForeignKey("LibraryUser.Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -440,7 +443,7 @@ namespace Library_WebServer.Migrations
 
             modelBuilder.Entity("Library_WebServer.Models.Database.UserDbModel", b =>
                 {
-                    b.Navigation("LibraryRentals");
+                    b.Navigation("LibraryRental");
                 });
 #pragma warning restore 612, 618
         }

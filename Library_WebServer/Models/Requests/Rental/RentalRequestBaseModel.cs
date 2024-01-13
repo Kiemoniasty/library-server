@@ -7,8 +7,8 @@ namespace Library_WebServer.Models.Requests.Rental
         [JsonPropertyName("Date")]
         public DateTime Date { get; set; }
 
-        [JsonPropertyName("IsBorrow")]
-        public bool IsBorrow { get; set; }
+        [JsonPropertyName("IsBorrowed")]
+        public bool IsBorrowed { get; set; }
 
         [JsonPropertyName("PublicationId")]
         public Guid PublicationId { get; set; }
@@ -20,12 +20,12 @@ namespace Library_WebServer.Models.Requests.Rental
 
         public RentalRequestBaseModel(
             DateTime date,
-            bool isBorrow,
+            bool isBorrowed,
             Guid publicationId,
             Guid userId)
         {
             Date = date;
-            IsBorrow = isBorrow;
+            IsBorrowed = isBorrowed;
             PublicationId = publicationId;
             UserId = userId;
         }

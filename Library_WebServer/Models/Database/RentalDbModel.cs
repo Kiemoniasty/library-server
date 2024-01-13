@@ -16,7 +16,7 @@ namespace Library_WebServer.Models.Database
 
         [Required]
         [NotNull]
-        public bool IsBorrow {  get; set; }
+        public bool IsBorrowed {  get; set; }
 
         [Required]
         [ForeignKey(nameof(LibraryPublication) + ".Id")]
@@ -33,13 +33,13 @@ namespace Library_WebServer.Models.Database
         public RentalDbModel(
             Guid id,
             DateTime date,
-            bool isBorrow,
+            bool isBorrowed,
             PublicationDbModel publication,
             UserDbModel user)
         {
             Id = id;
             Date = date;
-            IsBorrow = isBorrow;
+            IsBorrowed = isBorrowed;
             LibraryPublication = publication;
             LibraryUser = user;
         }

@@ -13,8 +13,8 @@ namespace Library_WebServer.Models.Responses
         [JsonPropertyName("Date")]
         public DateTime Date { get; set; }
 
-        [JsonPropertyName("IsBorrow")]
-        public bool IsBorrow { get; set; }
+        [JsonPropertyName("IsBorrowed")]
+        public bool IsBorrowed { get; set; }
 
         [JsonPropertyName("PublicationId")]
         public Guid PublicationId { get; set; }
@@ -28,16 +28,16 @@ namespace Library_WebServer.Models.Responses
         {
             Id = rental.Id;
             Date = rental.Date;
-            IsBorrow = rental.IsBorrow;
+            IsBorrowed = rental.IsBorrowed;
             PublicationId = rental.LibraryPublication.Id;
             UserId = rental.LibraryUser.Id;
         }
 
-        public RentalResponseModel(Guid id, DateTime date, bool isBorrow, Guid publicationId, Guid userId)
+        public RentalResponseModel(Guid id, DateTime date, bool isBorrowed, Guid publicationId, Guid userId)
         {
             Id = id;
             Date = date;
-            IsBorrow = isBorrow;
+            IsBorrowed = isBorrowed;
             PublicationId = publicationId;
             UserId = userId;
         }

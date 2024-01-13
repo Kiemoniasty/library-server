@@ -12,9 +12,9 @@ namespace Library_WebServer.Models.Requests.Rental
         public RentalRequestUpdateModel(
             Guid id,
             DateTime date,
-            bool isBorrow,
+            bool isBorrowed,
             Guid publicationId,
-            Guid userId) : base(date, isBorrow, publicationId, userId)
+            Guid userId) : base(date, isBorrowed, publicationId, userId)
         {
             Id = id;
         }

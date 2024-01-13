@@ -31,6 +31,7 @@ public class UsersController : ControllerBase
         //TODO: Add request validation
         UserDbModel? user = _libraryDbContext.Users
             .Include(x => x.UserAccountType)
+            .Include(x => x.LibraryRentals)
             .SingleOrDefault(x => x.Id == userId);
 
         if (user == null)
@@ -51,6 +52,7 @@ public class UsersController : ControllerBase
     {
         //TODO: Add request validation
         //TODO: Add db data validation
+
         UserDbModel newUser = new UserDbModel()
         {
             Address = user.Address,
@@ -58,7 +60,8 @@ public class UsersController : ControllerBase
             Name = user.Name,
             Password = user.Password,
             PhoneNumber = user.PhoneNumber,
-            UserAccountType = _libraryDbContext.AccountTypes.Single(x => x.Id == user.AccountType)
+            UserAccountType = _libraryDbContext.AccountTypes.Single(x => x.Id == user.AccountType),
+            LibraryRentals = new ()
         };
 
         _libraryDbContext.Users.Add(newUser);
@@ -79,6 +82,7 @@ public class UsersController : ControllerBase
         //TODO: Add request validation
         //TODO: Add db data validation
         UserDbModel? newUser = _libraryDbContext.Users
+            .Include(x => x.LibraryRentals)
             .SingleOrDefault(p => p.Id == user.Id);
 
         if (newUser == null)
@@ -134,6 +138,7 @@ public class UsersController : ControllerBase
         //TODO: Add request validation
         List<UserResponseModel> users = _libraryDbContext.Users
             .Include(x => x.UserAccountType)
+            .Include(x => x.LibraryRentals)
             .OrderBy(x => x.Name)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
