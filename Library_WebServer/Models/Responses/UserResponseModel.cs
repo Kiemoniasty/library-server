@@ -26,6 +26,9 @@ public class UserResponseModel
     [JsonPropertyName("Address")]
     public string Address { get; set; } = string.Empty;
 
+    [JsonPropertyName("Rental")]
+    public List<RentalResponseModel> Rental { get; set; }
+
     public UserResponseModel() { }
 
     public UserResponseModel(UserDbModel user)
@@ -37,9 +40,18 @@ public class UserResponseModel
         PhoneNumber = user.PhoneNumber;
         Address = user.Address;
         AccountType = user.UserAccountType.Id;
+        Rental = user.LibraryRental.Select(x => new RentalResponseModel(x)).ToList();
     }
 
-    public UserResponseModel(Guid id, UserAccountTypeEnum accountType, string name, string password, string email, string phoneNumber, string address)
+    public UserResponseModel
+        (Guid id, 
+        UserAccountTypeEnum accountType, 
+        string name, 
+        string password, 
+        string email, 
+        string phoneNumber,
+        string address, 
+        List<RentalResponseModel> rental)
     {
         Id = id;
         AccountType = accountType;
@@ -48,5 +60,6 @@ public class UserResponseModel
         Email = email;
         PhoneNumber = phoneNumber;
         Address = address;
+        Rental = rental;
     }
 }
