@@ -25,6 +25,7 @@ public class ReservationResponseModel
         Date = reservation.Date;
         PublicationId = reservation.LibraryPublication.Id;
         UserId = reservation.LibraryUser.Id;
+
     }
 
     public ReservationResponseModel(Guid id, DateTime date, Guid publicationId, Guid userId)

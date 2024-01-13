@@ -32,6 +32,7 @@ public class UsersController : ControllerBase
         UserDbModel? user = _libraryDbContext.Users
             .Include(x => x.UserAccountType)
             .Include(x => x.LibraryRentals)
+                .ThenInclude(x => x.LibraryPublication)
             .SingleOrDefault(x => x.Id == userId);
 
         if (user == null)
@@ -139,6 +140,7 @@ public class UsersController : ControllerBase
         List<UserResponseModel> users = _libraryDbContext.Users
             .Include(x => x.UserAccountType)
             .Include(x => x.LibraryRentals)
+                .ThenInclude(x => x.LibraryPublication)
             .OrderBy(x => x.Name)
             .Take(top ?? 10)
             .Skip(skip ?? 0)

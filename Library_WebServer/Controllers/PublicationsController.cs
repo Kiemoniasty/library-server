@@ -1,6 +1,7 @@
 using Library_WebServer.Database;
 using Library_WebServer.Models.Database;
 using Library_WebServer.Models.Requests.Publication;
+using Library_WebServer.Models.Requests.User;
 using Library_WebServer.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,7 @@ public class PublicationsController : ControllerBase
             .Include(p => p.LibraryObjectStatus)
             .Include(p => p.LibraryAuthor)
             .Include(p => p.LibraryReservations)
+                .ThenInclude(x => x.LibraryUser)
             .SingleOrDefault(x => x.Id == publicationId);
 
         if (publication == null)
