@@ -117,7 +117,7 @@ public class RentalsController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RentalResponseModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginationResponseModel<RentalResponseModel>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -133,7 +133,9 @@ public class RentalsController : ControllerBase
             .Select(x => new RentalResponseModel(x))
             .ToList();
 
-        return Ok(rentals);
+        int count = _libraryDbContext.Rentals.Count();
+
+        return Ok(new PaginationResponseModel<RentalResponseModel>(rentals, count));
     }
 }
 

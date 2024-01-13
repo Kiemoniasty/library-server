@@ -6,11 +6,12 @@ public class PaginationResponseModel<T>
     where T : class
 {
     [JsonPropertyName("ItemCount")]
-    public int ItemCount { get; set; }
+    public int ItemCount { get; set; } = 0;
 
     [JsonPropertyName("Items")]
-    List<T> Items { get; set; } = new List<T>();
+    public List<T> Items { get; set; } = new();
 
+    [JsonConstructor]
     public PaginationResponseModel(List<T> items, int itemCount)
     {
         Items = items;
