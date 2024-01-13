@@ -12,6 +12,7 @@ namespace Library_WebServer.Database
         public DbSet<AuthorDbModel> Authors { get; set; }
         public DbSet<CommentDbModel> Comments { get; set; }
         public DbSet<PublicationDbModel> Publications { get; set; }
+        public DbSet<RentalDbModel> Rentals { get; set; }
         public DbSet<ReservationDbModel> Reservations { get; set; }
         public DbSet<PublicationGenreDbModel> Genres { get; set; }
         public DbSet<PublicationStatusDbModel> Statuses { get; set; }
@@ -38,6 +39,7 @@ namespace Library_WebServer.Database
             modelBuilder.Entity<AuthorDbModel>().ToTable("Authors");
             modelBuilder.Entity<CommentDbModel>().ToTable("Comments");
             modelBuilder.Entity<PublicationDbModel>().ToTable("Publications");
+            modelBuilder.Entity<RentalDbModel>().ToTable("Rentals");
             modelBuilder.Entity<ReservationDbModel>().ToTable("Reservations");
 
             modelBuilder.Entity<PublicationGenreDbModel>().ToTable("Genres");
