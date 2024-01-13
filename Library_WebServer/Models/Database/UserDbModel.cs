@@ -32,6 +32,8 @@ public class UserDbModel
     [NotNull]
     public string Address { get; set; } = string.Empty;
 
+    public List<RentalDbModel> LibraryRentals { get; set; }
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public UserDbModel() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -42,7 +44,8 @@ public class UserDbModel
         string name, string password, 
         string email, 
         string phoneNumber, 
-        string address)
+        string address, 
+        List<RentalDbModel> rentals)
     {
         Id = id;
         UserAccountType = accountType;
@@ -51,5 +54,6 @@ public class UserDbModel
         Email = email;
         PhoneNumber = phoneNumber;
         Address = address;
+        LibraryRentals = rentals;
     }
 }
