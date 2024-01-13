@@ -114,7 +114,7 @@ public class ReservationsController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginationResponseModel<ReservationResponseModel>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -130,6 +130,8 @@ public class ReservationsController : ControllerBase
             .Select(x => new ReservationResponseModel(x))
             .ToList();
 
-        return Ok(reservations);
+        int count = _libraryDbContext.Reservations.Count();
+
+        return Ok(new PaginationResponseModel<ReservationResponseModel>(reservations, count));
     }
 }

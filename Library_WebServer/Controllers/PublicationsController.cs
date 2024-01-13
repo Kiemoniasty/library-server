@@ -4,6 +4,7 @@ using Library_WebServer.Models.Requests.Publication;
 using Library_WebServer.Models.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 
 namespace Library_WebServer.Controllers;
@@ -141,7 +142,7 @@ public class PublicationsController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PublicationResponseModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginationResponseModel<PublicationResponseModel>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -161,6 +162,8 @@ public class PublicationsController : ControllerBase
             .Select(x => new PublicationResponseModel(x))
             .ToList();
 
-        return Ok(publications);
+        int count = _libraryDbContext.Publications.Count();
+
+        return Ok(new PaginationResponseModel<PublicationResponseModel>(publications, count));
     }
 }

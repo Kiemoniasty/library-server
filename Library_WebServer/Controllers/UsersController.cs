@@ -125,7 +125,7 @@ public class UsersController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginationResponseModel<UserResponseModel>))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -140,6 +140,8 @@ public class UsersController : ControllerBase
             .Select(x => new UserResponseModel(x))
             .ToList();
 
-        return Ok(users);
+        int count = _libraryDbContext.Users.Count();
+
+        return Ok(new PaginationResponseModel<UserResponseModel>(users, count));
     }
 }
