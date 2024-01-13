@@ -118,7 +118,7 @@ public class ReservationsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public IActionResult GetPublications([FromQuery] int? top, [FromQuery] int? skip)
+    public IActionResult GetReservations([FromQuery] int? top, [FromQuery] int? skip)
     {
         //TODO: Add request validation
         List<ReservationResponseModel> reservations = _libraryDbContext.Reservations
