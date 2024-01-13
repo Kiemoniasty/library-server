@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Library_WebServer.Models.Responses;
 
-public class ReservationResponseMode
+public class ReservationResponseModel
 {
     [JsonPropertyName("Id")]
     public Guid Id { get; set; }
@@ -17,9 +17,9 @@ public class ReservationResponseMode
     [JsonPropertyName("UserId")]
     public Guid UserId { get; set; }
 
-    public ReservationResponseMode() { }
+    public ReservationResponseModel() { }
 
-    public ReservationResponseMode(ReservationDbModel reservation)
+    public ReservationResponseModel(ReservationDbModel reservation)
     {
         Id = reservation.Id;
         Date = reservation.Date;
@@ -27,7 +27,7 @@ public class ReservationResponseMode
         UserId = reservation.LibraryUser.Id;
     }
 
-    public ReservationResponseMode(Guid id, DateTime date, Guid publicationId, Guid userId)
+    public ReservationResponseModel(Guid id, DateTime date, Guid publicationId, Guid userId)
     {
         Id = id;
         Date = date;

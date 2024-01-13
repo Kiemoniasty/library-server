@@ -22,7 +22,7 @@ public class ReservationsController : ControllerBase
 
     [HttpGet]
     [Route("{reservationId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseMode))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -39,12 +39,12 @@ public class ReservationsController : ControllerBase
             return NotFound();
         }
 
-        return Ok(new ReservationResponseMode(reservation));
+        return Ok(new ReservationResponseModel(reservation));
     }
 
     [HttpPost]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseMode))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -63,12 +63,12 @@ public class ReservationsController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new ReservationResponseMode(newReservation));
+        return Ok(new ReservationResponseModel(newReservation));
     }
 
     [HttpPut]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseMode))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -88,12 +88,12 @@ public class ReservationsController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new ReservationResponseMode(newReservation));
+        return Ok(new ReservationResponseModel(newReservation));
     }
 
     [HttpDelete]
     [Route("{reservationId}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseMode))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -114,20 +114,20 @@ public class ReservationsController : ControllerBase
 
     [HttpGet]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseMode))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationResponseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public IActionResult GetPublications([FromQuery] int? top, [FromQuery] int? skip)
     {
         //TODO: Add request validation
-        List<ReservationResponseMode> reservations = _libraryDbContext.Reservations
+        List<ReservationResponseModel> reservations = _libraryDbContext.Reservations
             .Include(p => p.LibraryPublication)
             .Include(p => p.LibraryUser)
             .OrderBy(x => x.Date)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
-            .Select(x => new ReservationResponseMode(x))
+            .Select(x => new ReservationResponseModel(x))
             .ToList();
 
         return Ok(reservations);

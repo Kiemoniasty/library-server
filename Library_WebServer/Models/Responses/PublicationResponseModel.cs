@@ -25,7 +25,7 @@ public class PublicationResponseModel
     public LibraryObjectStatusEnum Status { get; set; }
 
     [JsonPropertyName("Reservations")]
-    public List<ReservationResponseMode> Reservations { get; set; }
+    public List<ReservationResponseModel> Reservations { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public PublicationResponseModel() { }
@@ -39,7 +39,7 @@ public class PublicationResponseModel
         Type = publication.LibraryObjectType.Id;
         Genre = publication.LibraryObjectGenre.Id;
         Status = publication.LibraryObjectStatus.Id;
-        Reservations = publication.LibraryReservations.Select(x => new ReservationResponseMode(x)).ToList();
+        Reservations = publication.LibraryReservations.Select(x => new ReservationResponseModel(x)).ToList();
     }
 
     public PublicationResponseModel(
@@ -49,7 +49,7 @@ public class PublicationResponseModel
         LibraryObjectTypeEnum objectType,
         LibraryObjectGenreEnum genre,
         LibraryObjectStatusEnum status,
-        List<ReservationResponseMode> reservations)
+        List<ReservationResponseModel> reservations)
     {
         Id = id;
         Name = name;
