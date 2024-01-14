@@ -1,20 +1,37 @@
 ﻿using Library_WebServer.Enums;
-using Library_WebServer.Models.Rental.Response;
 using Library_WebServer.Models.User.Database;
 using System.Text.Json.Serialization;
 
 namespace Library_WebServer.Models.User.Response;
 
-public class UserResponseModel : UserResponseBaseModel
+public class UserResponseBaseModel
 {
-    [JsonPropertyName("Rentals")]
-    public List<RentalResponseModel> Rentals { get; set; }
+    [JsonPropertyName("Id")]
+    public Guid Id { get; set; }
+
+    [JsonPropertyName("AccountType")]
+    public UserAccountTypeEnum AccountType { get; set; }
+
+    [JsonPropertyName("Name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("Password")]
+    public string Password { get; set; } = string.Empty;
+
+    [JsonPropertyName("Email")]
+    public string Email { get; set; } = string.Empty;
+
+    [JsonPropertyName("PhoneNumber")]
+    public string PhoneNumber { get; set; } = string.Empty;
+
+    [JsonPropertyName("Address")]
+    public string Address { get; set; } = string.Empty;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public UserResponseModel() { }
+    public UserResponseBaseModel() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public UserResponseModel(UserDbModel user)
+    public UserResponseBaseModel(UserDbModel user)
     {
         Id = user.Id;
         Name = user.Name;
@@ -23,19 +40,16 @@ public class UserResponseModel : UserResponseBaseModel
         PhoneNumber = user.PhoneNumber;
         Address = user.Address;
         AccountType = user.UserAccountType.Id;
-        Rentals = user.LibraryRentals.Select(x => new RentalResponseModel(x)).ToList();
     }
 
-    public UserResponseModel
+    public UserResponseBaseModel
         (Guid id,
         UserAccountTypeEnum accountType,
         string name,
         string password,
         string email,
         string phoneNumber,
-        string address,
-        List<RentalResponseModel> rentals) 
-        : base (id, accountType, name, password, email, phoneNumber, address)
+        string address)
     {
         Id = id;
         AccountType = accountType;
@@ -44,6 +58,5 @@ public class UserResponseModel : UserResponseBaseModel
         Email = email;
         PhoneNumber = phoneNumber;
         Address = address;
-        Rentals = rentals;
     }
 }
