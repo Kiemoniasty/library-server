@@ -26,18 +26,7 @@ public class LoginController : ControllerBase
     {
         UserDbModel? loginDB = _libraryDbContext.Users.SingleOrDefault(x => x.Id == login.Id);
 
-        bool pass = false;
-
-        if (loginDB == null)
-        {
-
-            return Ok(pass);
-        }
-
-        if (loginDB.Password == login.Password) 
-        {
-            pass = true;
-        }
+        bool pass = (loginDB != null && loginDB.Password == login.Password) ? true : false;
 
         return Ok(pass);
     }
