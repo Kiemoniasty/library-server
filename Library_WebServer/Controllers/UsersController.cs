@@ -1,7 +1,8 @@
 using Library_WebServer.Database;
-using Library_WebServer.Models.Database;
-using Library_WebServer.Models.Requests.User;
-using Library_WebServer.Models.Responses;
+using Library_WebServer.Models;
+using Library_WebServer.Models.User.Database;
+using Library_WebServer.Models.User.Request;
+using Library_WebServer.Models.User.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

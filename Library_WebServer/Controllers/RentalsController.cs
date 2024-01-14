@@ -1,8 +1,8 @@
 ﻿using Library_WebServer.Database;
-using Library_WebServer.Models.Database;
-using Library_WebServer.Models.Requests.Rental;
-using Library_WebServer.Models.Requests.Reservation;
-using Library_WebServer.Models.Responses;
+using Library_WebServer.Models;
+using Library_WebServer.Models.Rental.Database;
+using Library_WebServer.Models.Rental.Request;
+using Library_WebServer.Models.Rental.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

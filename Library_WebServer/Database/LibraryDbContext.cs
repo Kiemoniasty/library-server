@@ -1,6 +1,11 @@
 ﻿using Library_WebServer.Enums;
-using Library_WebServer.Models.Database;
-using Library_WebServer.Models.Requests;
+using Library_WebServer.Models.Author.Database;
+using Library_WebServer.Models.Comment.Database;
+using Library_WebServer.Models.Enums.Database;
+using Library_WebServer.Models.Publication.Database;
+using Library_WebServer.Models.Rental.Database;
+using Library_WebServer.Models.Reservation.Database;
+using Library_WebServer.Models.User.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library_WebServer.Database

@@ -1,11 +1,11 @@
 using Library_WebServer.Database;
-using Library_WebServer.Models.Database;
-using Library_WebServer.Models.Requests.Publication;
-using Library_WebServer.Models.Requests.User;
-using Library_WebServer.Models.Responses;
+using Library_WebServer.Models;
+using Library_WebServer.Models.Author.Database;
+using Library_WebServer.Models.Publication.Database;
+using Library_WebServer.Models.Publication.Request;
+using Library_WebServer.Models.Publication.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
 
 namespace Library_WebServer.Controllers;
@@ -39,6 +39,8 @@ public class PublicationsController : ControllerBase
             .Include(p => p.LibraryAuthor)
             .Include(p => p.LibraryReservations)
                 .ThenInclude(x => x.LibraryUser)
+            .Include(p => p.LibraryComments)
+                .ThenInclude(x => x.LibraryUser)
             .SingleOrDefault(x => x.Id == publicationId);
 
         if (publication == null)
@@ -51,7 +53,7 @@ public class PublicationsController : ControllerBase
 
     [HttpPost]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PublicationResponseModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PublicationResponseBaseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -69,10 +71,13 @@ public class PublicationsController : ControllerBase
         PublicationDbModel newPublication = new PublicationDbModel()
         {
             Name = publication.Name,
+            Description = publication.Description,
+            ReleaseYear = publication.ReleaseYear,
             LibraryAuthor = author,
             LibraryObjectType = _libraryDbContext.PublicationTypes.Single(x => x.Id == publication.Type),
             LibraryObjectGenre = _libraryDbContext.Genres.Single(x => x.Id == publication.Genre),
             LibraryObjectStatus = _libraryDbContext.Statuses.Single(x => x.Id == publication.Status),
+            LibraryComments = new(),
             LibraryReservations = new()
         };
 
@@ -80,12 +85,12 @@ public class PublicationsController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new PublicationResponseModel(newPublication));
+        return Ok(new PublicationResponseBaseModel(newPublication));
     }
 
     [HttpPut]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PublicationResponseModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PublicationResponseBaseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -98,6 +103,7 @@ public class PublicationsController : ControllerBase
             .Include(x => x.LibraryObjectStatus)
             .Include(x => x.LibraryAuthor)
             .Include(x => x.LibraryReservations)
+            .Include(x => x.LibraryComments)
             .SingleOrDefault(p => p.Id == publication.Id);
 
         if (newPublication == null)
@@ -107,6 +113,8 @@ public class PublicationsController : ControllerBase
 
         //TODO: Add db data validation
         newPublication.Name = publication.Name;
+        newPublication.Description = publication.Description;
+        newPublication.ReleaseYear = publication.ReleaseYear;
         newPublication.LibraryObjectType = _libraryDbContext.PublicationTypes.Single(x => x.Id == publication.Type);
         newPublication.LibraryObjectGenre = _libraryDbContext.Genres.Single(x => x.Id == publication.Genre);
         newPublication.LibraryObjectStatus = _libraryDbContext.Statuses.Single(x => x.Id == publication.Status);
@@ -116,7 +124,7 @@ public class PublicationsController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new PublicationResponseModel(newPublication));
+        return Ok(new PublicationResponseBaseModel(newPublication));
     }
 
     [HttpDelete]
@@ -157,6 +165,8 @@ public class PublicationsController : ControllerBase
             .Include(x => x.LibraryObjectStatus)
             .Include(x => x.LibraryAuthor)
             .Include(x => x.LibraryReservations)
+                .ThenInclude(x => x.LibraryUser)
+            .Include(x => x.LibraryComments)
                 .ThenInclude(x => x.LibraryUser)
             .OrderBy(x => x.Name)
             .Take(top ?? 10)
