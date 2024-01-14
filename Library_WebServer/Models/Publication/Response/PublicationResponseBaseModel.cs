@@ -1,5 +1,5 @@
-﻿using Library_WebServer.Enums;
-using Library_WebServer.Models.Author.Response;
+﻿using Library_WebServer.Models.Author.Response;
+using Library_WebServer.Models.Enums;
 using Library_WebServer.Models.Publication.Database;
 using System.Text.Json.Serialization;
 

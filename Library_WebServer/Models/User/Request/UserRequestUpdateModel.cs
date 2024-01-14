@@ -1,4 +1,4 @@
-﻿using Library_WebServer.Enums;
+﻿using Library_WebServer.Models.Enums;
 using System.Text.Json.Serialization;
 
 namespace Library_WebServer.Models.User.Request;

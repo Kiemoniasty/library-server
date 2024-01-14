@@ -1,6 +1,6 @@
-﻿using Library_WebServer.Enums;
-using Library_WebServer.Models.Author.Database;
+﻿using Library_WebServer.Models.Author.Database;
 using Library_WebServer.Models.Comment.Database;
+using Library_WebServer.Models.Enums;
 using Library_WebServer.Models.Enums.Database;
 using Library_WebServer.Models.Publication.Database;
 using Library_WebServer.Models.Rental.Database;
@@ -12,7 +12,6 @@ namespace Library_WebServer.Database
 {
     public class LibraryDbContext : DbContext
     {
-        private const string CONNECTION_STRING = "Server=localhost;Port=5432;Database=library;User Id=admin;Password=admin;";
         public DbSet<UserDbModel> Users { get; set; }
         public DbSet<AuthorDbModel> Authors { get; set; }
         public DbSet<CommentDbModel> Comments { get; set; }
@@ -28,14 +27,6 @@ namespace Library_WebServer.Database
         {
 
         }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseNpgsql("dupa");
-        //    }
-        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

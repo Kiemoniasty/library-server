@@ -1,4 +1,4 @@
-﻿namespace Library_WebServer.Enums;
+﻿namespace Library_WebServer.Models.Enums;
 
 public enum LibraryObjectTypeEnum
 {
