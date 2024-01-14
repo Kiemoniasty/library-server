@@ -27,24 +27,19 @@ namespace Library_WebServer.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult PostLogin([FromBody] LoginRequestBaseModel login)
         {
-            UserDbModel? loginDB = _libraryDbContext.Users
-                .Include(x => x.UserAccountType)
-                .Include(x => x.LibraryRentals)
-                    .ThenInclude(x => x.LibraryPublication)
-                .SingleOrDefault(x => x.Name == login.Name);
+            UserDbModel? loginDB = _libraryDbContext.Users.SingleOrDefault(x => x.Id == login.Id);
 
-            bool pass = true;
+            bool pass = false;
 
             if (loginDB == null)
             {
-                pass = false;
+
                 return Ok(pass);
             }
 
-            if (loginDB.Password != login.Password) 
+            if (loginDB.Password == login.Password) 
             {
-                pass = false;
-                return Ok(pass);
+                pass = true;
             }
 
             return Ok(pass);
