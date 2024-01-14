@@ -1,7 +1,8 @@
 using Library_WebServer.Database;
-using Library_WebServer.Models.Database;
-using Library_WebServer.Models.Requests.User;
-using Library_WebServer.Models.Responses;
+using Library_WebServer.Models;
+using Library_WebServer.Models.User.Database;
+using Library_WebServer.Models.User.Request;
+using Library_WebServer.Models.User.Response;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,7 +46,7 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseBaseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -69,12 +70,12 @@ public class UsersController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new UserResponseModel(newUser));
+        return Ok(new UserResponseBaseModel(newUser));
     }
 
     [HttpPut]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseBaseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -102,7 +103,7 @@ public class UsersController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new UserResponseModel(newUser));
+        return Ok(new UserResponseBaseModel(newUser));
     }
 
     [HttpDelete]

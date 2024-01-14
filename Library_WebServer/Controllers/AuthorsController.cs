@@ -1,9 +1,9 @@
 using Library_WebServer.Database;
-using Library_WebServer.Models.Database;
-using Library_WebServer.Models.Requests.Author;
-using Library_WebServer.Models.Responses;
+using Library_WebServer.Models;
+using Library_WebServer.Models.Author.Database;
+using Library_WebServer.Models.Author.Request;
+using Library_WebServer.Models.Author.Response;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace Library_WebServer.Controllers;
 
