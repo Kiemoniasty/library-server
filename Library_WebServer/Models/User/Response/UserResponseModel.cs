@@ -17,7 +17,8 @@ public class UserResponseModel : UserResponseBaseModel
     public UserResponseModel(UserDbModel user)
     {
         Id = user.Id;
-        Name = user.Name;
+        FirstName = user.FirstName;
+        LastName = user.LastName;
         Password = user.Password;
         Email = user.Email;
         PhoneNumber = user.PhoneNumber;
@@ -29,17 +30,19 @@ public class UserResponseModel : UserResponseBaseModel
     public UserResponseModel
         (Guid id,
         UserAccountTypeEnum accountType,
-        string name,
+        string firstName,
+        string lastName,
         string password,
         string email,
         string phoneNumber,
         string address,
         List<RentalResponseModel> rentals) 
-        : base (id, accountType, name, password, email, phoneNumber, address)
+        : base (id, accountType, firstName, lastName, password, email, phoneNumber, address)
     {
         Id = id;
         AccountType = accountType;
-        Name = name;
+        FirstName = firstName;
+        LastName = lastName;
         Password = password;
         Email = email;
         PhoneNumber = phoneNumber;

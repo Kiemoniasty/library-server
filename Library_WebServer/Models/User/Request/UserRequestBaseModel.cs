@@ -7,8 +7,11 @@ public class UserRequestBaseModel
     [JsonPropertyName("AccountType")]
     public UserAccountTypeEnum AccountType { get; set; }
 
-    [JsonPropertyName("Name")]
-    public string Name { get; set; } = string.Empty;
+    [JsonPropertyName("FirstName")]
+    public string FirstName { get; set; } = string.Empty;
+
+    [JsonPropertyName("FirstName")]
+    public string LastName { get; set; } = string.Empty;
 
     [JsonPropertyName("Password")]
     public string Password { get; set; } = string.Empty;
@@ -26,14 +29,16 @@ public class UserRequestBaseModel
 
     public UserRequestBaseModel(
         UserAccountTypeEnum accountType,
-        string name,
+        string firstName,
+        string lastName,
         string password,
         string email,
         string phoneNumber,
         string address)
     {
         AccountType = accountType;
-        Name = name;
+        FirstName = firstName;
+        LastName = lastName;
         Password = password;
         Email = email;
         PhoneNumber = phoneNumber;

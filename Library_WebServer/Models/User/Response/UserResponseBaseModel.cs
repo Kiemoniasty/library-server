@@ -12,8 +12,11 @@ public class UserResponseBaseModel
     [JsonPropertyName("AccountType")]
     public UserAccountTypeEnum AccountType { get; set; }
 
-    [JsonPropertyName("Name")]
-    public string Name { get; set; } = string.Empty;
+    [JsonPropertyName("FirstName")]
+    public string FirstName { get; set; } = string.Empty;
+
+    [JsonPropertyName("LastName")]
+    public string LastName { get; set; } = string.Empty;
 
     [JsonPropertyName("Password")]
     public string Password { get; set; } = string.Empty;
@@ -34,7 +37,8 @@ public class UserResponseBaseModel
     public UserResponseBaseModel(UserDbModel user)
     {
         Id = user.Id;
-        Name = user.Name;
+        FirstName = user.FirstName;
+        LastName = user.LastName;
         Password = user.Password;
         Email = user.Email;
         PhoneNumber = user.PhoneNumber;
@@ -45,7 +49,8 @@ public class UserResponseBaseModel
     public UserResponseBaseModel
         (Guid id,
         UserAccountTypeEnum accountType,
-        string name,
+        string firstName,
+        string lastName,
         string password,
         string email,
         string phoneNumber,
@@ -53,7 +58,8 @@ public class UserResponseBaseModel
     {
         Id = id;
         AccountType = accountType;
-        Name = name;
+        FirstName = firstName;
+        LastName = lastName;
         Password = password;
         Email = email;
         PhoneNumber = phoneNumber;

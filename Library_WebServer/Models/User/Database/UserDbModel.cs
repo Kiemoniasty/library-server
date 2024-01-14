@@ -16,7 +16,11 @@ public class UserDbModel
 
     [Required]
     [NotNull]
-    public string Name { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+
+    [Required]
+    [NotNull]
+    public string LastName { get; set; } = string.Empty;
 
     [Required]
     [NotNull]
@@ -43,7 +47,9 @@ public class UserDbModel
     public UserDbModel(
         Guid id,
         UserAccountTypeDbModel accountType,
-        string name, string password,
+        string firstName,
+        string lastName,
+        string password,
         string email,
         string phoneNumber,
         string address,
@@ -51,7 +57,8 @@ public class UserDbModel
     {
         Id = id;
         UserAccountType = accountType;
-        Name = name;
+        FirstName = firstName;
+        LastName = lastName;
         Password = password;
         Email = email;
         PhoneNumber = phoneNumber;

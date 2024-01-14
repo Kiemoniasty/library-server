@@ -12,11 +12,12 @@ public class UserRequestUpdateModel : UserRequestBaseModel
     public UserRequestUpdateModel(
         Guid id,
         UserAccountTypeEnum accountType,
-        string name,
+        string firstName,
+        string lastName,
         string password,
         string email,
         string phoneNumber,
-        string address) : base(accountType, name, password, email, phoneNumber, address)
+        string address) : base(accountType, firstName, lastName, password, email, phoneNumber, address)
     {
         Id = id;
     }
