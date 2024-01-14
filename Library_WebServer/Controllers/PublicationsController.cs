@@ -40,6 +40,8 @@ public class PublicationsController : ControllerBase
                 .ThenInclude(x => x.LibraryUser)
             .Include(p => p.LibraryComments)
                 .ThenInclude(x => x.LibraryUser)
+            .Include(x => x.LibraryRentals)
+                .ThenInclude(x => x.LibraryUser)
             .SingleOrDefault(x => x.Id == publicationId);
 
         if (publication == null)
@@ -77,7 +79,8 @@ public class PublicationsController : ControllerBase
             LibraryObjectGenre = _libraryDbContext.Genres.Single(x => x.Id == publication.Genre),
             LibraryObjectStatus = _libraryDbContext.Statuses.Single(x => x.Id == publication.Status),
             LibraryComments = new(),
-            LibraryReservations = new()
+            LibraryReservations = new(),
+            LibraryRentals = new()
         };
 
         _libraryDbContext.Publications.Add(newPublication);
@@ -103,6 +106,7 @@ public class PublicationsController : ControllerBase
             .Include(x => x.LibraryAuthor)
             .Include(x => x.LibraryReservations)
             .Include(x => x.LibraryComments)
+            .Include(x => x.LibraryRentals)
             .SingleOrDefault(p => p.Id == publication.Id);
 
         if (newPublication == null)
@@ -166,6 +170,8 @@ public class PublicationsController : ControllerBase
             .Include(x => x.LibraryReservations)
                 .ThenInclude(x => x.LibraryUser)
             .Include(x => x.LibraryComments)
+                .ThenInclude(x => x.LibraryUser)
+            .Include(x => x.LibraryRentals)
                 .ThenInclude(x => x.LibraryUser)
             .OrderBy(x => x.Name)
             .Take(top ?? 10)

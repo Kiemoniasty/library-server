@@ -2,6 +2,7 @@
 using Library_WebServer.Models.Author.Response;
 using Library_WebServer.Models.Comment.Response;
 using Library_WebServer.Models.Publication.Database;
+using Library_WebServer.Models.Rental.Response;
 using Library_WebServer.Models.Reservation.Response;
 using System.Text.Json.Serialization;
 
@@ -14,6 +15,9 @@ public class PublicationResponseModel : PublicationResponseBaseModel
 
     [JsonPropertyName("Comments")]
     public List<CommentResponseModel> Comments { get; set; }
+
+    [JsonPropertyName("Rentals")]
+    public List<RentalResponseModel> Rentals { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public PublicationResponseModel() { }
@@ -31,6 +35,7 @@ public class PublicationResponseModel : PublicationResponseBaseModel
         Status = publication.LibraryObjectStatus.Id;
         Reservations = publication.LibraryReservations.Select(x => new ReservationResponseModel(x)).ToList();
         Comments = publication.LibraryComments.Select(x => new CommentResponseModel(x)).ToList();
+        Rentals = publication.LibraryRentals.Select(x => new RentalResponseModel(x)).ToList();
     }
 
     public PublicationResponseModel(
@@ -43,9 +48,11 @@ public class PublicationResponseModel : PublicationResponseBaseModel
         LibraryObjectGenreEnum genre,
         LibraryObjectStatusEnum status,
         List<ReservationResponseModel> reservations,
-        List<CommentResponseModel> comments) : base(id, name, description, releaseYear, author, objectType, genre, status)
+        List<CommentResponseModel> comments,
+        List<RentalResponseModel> rentals) : base(id, name, description, releaseYear, author, objectType, genre, status)
     {
         Reservations = reservations;
         Comments = comments;
+        Rentals = rentals;
     }
 }

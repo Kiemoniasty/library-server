@@ -10,7 +10,7 @@ public class UserRequestBaseModel
     [JsonPropertyName("FirstName")]
     public string FirstName { get; set; } = string.Empty;
 
-    [JsonPropertyName("FirstName")]
+    [JsonPropertyName("LastName")]
     public string LastName { get; set; } = string.Empty;
 
     [JsonPropertyName("Password")]
