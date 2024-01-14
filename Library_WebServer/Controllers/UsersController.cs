@@ -46,7 +46,7 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseBaseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -70,12 +70,12 @@ public class UsersController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new UserResponseModel(newUser));
+        return Ok(new UserResponseBaseModel(newUser));
     }
 
     [HttpPut]
     [Route("")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseModel))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserResponseBaseModel))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -103,7 +103,7 @@ public class UsersController : ControllerBase
 
         _libraryDbContext.SaveChanges();
 
-        return Ok(new UserResponseModel(newUser));
+        return Ok(new UserResponseBaseModel(newUser));
     }
 
     [HttpDelete]
