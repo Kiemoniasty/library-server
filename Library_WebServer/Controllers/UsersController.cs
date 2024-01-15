@@ -144,7 +144,7 @@ public class UsersController : ControllerBase
             .Include(x => x.UserAccountType)
             .Include(x => x.LibraryRentals)
                 .ThenInclude(x => x.LibraryPublication)
-            .OrderBy(x => x.FirstName)
+            .OrderBy(x => x.LastName)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
             .Select(x => new UserResponseModel(x))
