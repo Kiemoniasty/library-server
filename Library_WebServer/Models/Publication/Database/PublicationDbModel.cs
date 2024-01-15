@@ -1,6 +1,7 @@
 ﻿using Library_WebServer.Models.Author.Database;
 using Library_WebServer.Models.Comment.Database;
 using Library_WebServer.Models.Enums.Database;
+using Library_WebServer.Models.Rental.Database;
 using Library_WebServer.Models.Reservation.Database;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -46,6 +47,8 @@ public class PublicationDbModel
 
     public List<CommentDbModel> LibraryComments { get; set; }
 
+    public List<RentalDbModel> LibraryRentals { get; set; }
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public PublicationDbModel() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -58,7 +61,8 @@ public class PublicationDbModel
         PublicationGenreDbModel genre,
         PublicationStatusDbModel status,
         List<ReservationDbModel> reservations,
-        List<CommentDbModel> comments)
+        List<CommentDbModel> comments,
+        List<RentalDbModel> rentals)
     {
         Id = id;
         Name = name;
@@ -68,5 +72,6 @@ public class PublicationDbModel
         LibraryObjectStatus = status;
         LibraryReservations = reservations;
         LibraryComments = comments;
+        LibraryRentals = rentals;
     }
 }

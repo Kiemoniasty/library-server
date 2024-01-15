@@ -59,7 +59,8 @@ public class UsersController : ControllerBase
         {
             Address = user.Address,
             Email = user.Email,
-            Name = user.Name,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
             Password = user.Password,
             PhoneNumber = user.PhoneNumber,
             UserAccountType = _libraryDbContext.AccountTypes.Single(x => x.Id == user.AccountType),
@@ -92,7 +93,8 @@ public class UsersController : ControllerBase
             return BadRequest();
         }
 
-        newUser.Name = user.Name;
+        newUser.FirstName = user.FirstName;
+        newUser.LastName = user.LastName;
         newUser.Password = user.Password;
         newUser.Email = user.Email;
         newUser.PhoneNumber = user.PhoneNumber;
@@ -142,7 +144,7 @@ public class UsersController : ControllerBase
             .Include(x => x.UserAccountType)
             .Include(x => x.LibraryRentals)
                 .ThenInclude(x => x.LibraryPublication)
-            .OrderBy(x => x.Name)
+            .OrderBy(x => x.LastName)
             .Take(top ?? 10)
             .Skip(skip ?? 0)
             .Select(x => new UserResponseModel(x))
