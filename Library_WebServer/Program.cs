@@ -12,7 +12,8 @@ builder.Services.AddSwaggerGen();
 
 //TODO: Make it right
 builder.Services.AddDbContext<LibraryDbContext>(
-    options => options.UseNpgsql("Server=localhost;Port=5432;Database=library;User Id=admin;Password=admin;"));
+    options => options.UseNpgsql("Server=pgzdunek.postgres.database.azure.com;Port=5432;Database=library;User Id=KiepCoinMinerAdmin;Password=DejKojna2024;"));
+    //options => options.UseNpgsql("Server=localhost;Port=5432;Database=library;User Id=admin;Password=admin;"));
 
 var app = builder.Build();
 

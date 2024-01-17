@@ -128,8 +128,8 @@ public class RentalsController : ControllerBase
             .Include(p => p.LibraryPublication)
             .Include(p => p.LibraryUser)
             .OrderBy(x => x.Date)
-            .Take(top ?? 10)
             .Skip(skip ?? 0)
+            .Take(top ?? 10)
             .Select(x => new RentalResponseModel(x))
             .ToList();
 

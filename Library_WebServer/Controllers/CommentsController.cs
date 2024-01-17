@@ -136,8 +136,8 @@ public class CommentsController : ControllerBase
             .Include(x => x.LibraryPublication)
             .Include(x => x.LibraryUser)
             .OrderBy(x => x.Grade)
-            .Take(top ?? 10)
             .Skip(skip ?? 0)
+            .Take(top ?? 10)
             .Select(x => new CommentResponseModel(x))
             .ToList();
 
