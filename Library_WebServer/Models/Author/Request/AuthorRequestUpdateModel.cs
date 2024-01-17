@@ -5,12 +5,12 @@ namespace Library_WebServer.Models.Author.Request;
 public class AuthorRequestUpdateModel : AuthorRequestBaseModel
 {
     [JsonPropertyName("Id")]
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 
     public AuthorRequestUpdateModel() { }
 
     public AuthorRequestUpdateModel(
-        Guid id,
+        string id,
         string firstName,
         string lastName)
             : base(firstName, lastName)
