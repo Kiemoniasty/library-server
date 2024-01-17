@@ -174,8 +174,8 @@ public class PublicationsController : ControllerBase
             .Include(x => x.LibraryRentals)
                 .ThenInclude(x => x.LibraryUser)
             .OrderBy(x => x.Name)
-            .Take(top ?? 10)
             .Skip(skip ?? 0)
+            .Take(top ?? 10)
             .Select(x => new PublicationResponseModel(x))
             .ToList();
 

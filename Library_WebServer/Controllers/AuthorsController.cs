@@ -123,8 +123,8 @@ public class AuthorsController : ControllerBase
         //TODO: Add request validation
         List<AuthorResponseModel> authors = _libraryDbContext.Authors
             .OrderBy(x => x.LastName)
-            .Take(top ?? 10)
             .Skip(skip ?? 0)
+            .Take(top ?? 10)
             .Select(x => new AuthorResponseModel(x))
             .ToList();
 
