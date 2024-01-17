@@ -1,10 +1,15 @@
-﻿namespace Library_WebServer.Models.Author.Domain;
+﻿using Library_WebServer.Models.Author.Request;
 
-public abstract class AuthorBase
+namespace Library_WebServer.Models.Author.Domain;
+
+public class AuthorBase
 {
     public string FirstName { get; set; } = string.Empty;
 
     public string LastName { get; set; } = string.Empty;
+
+    public AuthorBase(AuthorRequestBaseModel model)
+        : this(model.FirstName, model.LastName) { }
 
     public AuthorBase(
         string firstName,

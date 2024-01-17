@@ -14,6 +14,6 @@ public class Author : AuthorBase
         Id = Guid.Parse(id);
     }
 
-    public Author(AuthorRequestUpdateModel updateModel)
-        : this(updateModel.Id, updateModel.FirstName, updateModel.LastName) { }
+    public Author(AuthorRequestUpdateModel model)
+        : this(model.Id, model.FirstName, model.LastName) { }
 }

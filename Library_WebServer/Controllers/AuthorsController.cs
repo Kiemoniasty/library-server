@@ -61,10 +61,12 @@ public class AuthorsController : ControllerBase
             return BadRequest(message);
         }
 
+        AuthorBase author = new AuthorBase(authorRequest);
+
         AuthorDbModel newAuthor = new AuthorDbModel()
         {
-            FirstName = authorRequest.FirstName,
-            LastName = authorRequest.LastName
+            FirstName = author.FirstName,
+            LastName = author.LastName
         };
 
         _libraryDbContext.Authors.Add(newAuthor);
@@ -87,7 +89,7 @@ public class AuthorsController : ControllerBase
             return BadRequest(message);
         }
 
-        var author = new Author(authorRequest);
+        Author author = new Author(authorRequest);
 
         AuthorDbModel? newAuthor = _libraryDbContext.Authors
             .SingleOrDefault(p => p.Id == author.Id);
@@ -155,7 +157,6 @@ public class AuthorsController : ControllerBase
 
             topInt = int.Parse(top);
         }
-
 
         if (skip != null)
         {

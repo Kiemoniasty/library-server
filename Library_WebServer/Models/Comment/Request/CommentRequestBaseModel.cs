@@ -5,25 +5,24 @@ namespace Library_WebServer.Models.Comment.Request;
 public class CommentRequestBaseModel
 {
     [JsonPropertyName("Grade")]
-    public ushort Grade { get; set; }
+    public string Grade { get; set; }
 
     [JsonPropertyName("Contents")]
     public string Contents { get; set; } = string.Empty;
 
     [JsonPropertyName("PublicationId")]
-    public Guid PublicationId { get; set; }
+    public string PublicationId { get; set; }
 
     [JsonPropertyName("UserId")]
-    public Guid UserId { get; set; }
+    public string UserId { get; set; }
 
     public CommentRequestBaseModel() { }
 
-
     public CommentRequestBaseModel(
-        ushort grade,
+        string grade,
         string contents,
-        Guid publicationId,
-        Guid userId)
+        string publicationId,
+        string userId)
     {
         Grade = grade;
         Contents = contents;
